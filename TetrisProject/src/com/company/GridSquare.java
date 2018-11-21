@@ -35,7 +35,6 @@ public class GridSquare extends JComponent {
         Graphics2D g2D = (Graphics2D)g.create();
         g2D.setStroke(new BasicStroke(1));
         g2D.setPaint(Color.white);
-        g2D.setColor(Color.BLUE);
         g2D.draw(rectangle);
     }
 }

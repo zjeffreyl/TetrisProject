@@ -1,40 +1,41 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class GridView extends JPanel
 {
     int height;
     int width;
-    public final int squareDimension = 40;
-    public final int widthOffset = 20;
-    public final int heightOffset = 40;
+    public int rows;
+    public int cols;
+    public final static int squareDimension = 25;
     GridSquare[] squares;
+    public final int borderOffset = 5;
 
-    public GridView(int rows, int cols)
+    public GridView(int cols, int rows)
     {
-        height = rows * squareDimension + heightOffset;
-        width = cols * squareDimension + widthOffset;
-        this.setLayout(new GridLayout(rows, cols, 0, 0));
-        this.setBackground(Color.darkGray);
+        this.rows = rows;
+        this.cols = cols;
+
+        height = rows * squareDimension + borderOffset;
+        width = cols * squareDimension + borderOffset;
+        setLayout(new GridLayout(rows, cols));
+        setPreferredSize(new Dimension(width + 5, height + 5));
+        setMaximumSize(new Dimension(width + 5, height + 5));
         squares = new GridSquare[rows*cols];
         for(int i = 0; i < squares.length; i++)
         {
             squares[i] = new GridSquare(1,1, (squareDimension));
             this.add(squares[i]);
         }
-        this.setSize(width, height);
-        this.setVisible(true);
+        setBackground(Color.darkGray);
     }
 
-    public int getHeight()
+    public void createBorder(int xBorder, int yBorder)
     {
-        return height;
-    }
-
-    public int getWidth()
-    {
-        return width;
+        setBorder(new EmptyBorder(yBorder, xBorder, yBorder, xBorder));
     }
 }

@@ -8,47 +8,50 @@ public class MainGameView extends JFrame {
 
     public MainGameView(int dimension)
     {
-        setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.gray);
-        setSize(dimension, dimension);
-        setLocationRelativeTo(null);
-
-        int gridWidth = (dimension * 2)/5;
-        int gridHeight = (dimension * 4)/5;
-        int horizontalPadding = (dimension * 3)/10 - 14;
-        int verticalPadding = (dimension)/ 10 - 38;
-        //side block dimension
-        int xSideGridDimension = (dimension * 4)/25;
-        int ySideGridDimension = (dimension * 2)/25;
-
-
-        GridView grid = new GridView(20, 10);
-        //grid.squares[0].getGraphics().setColor(Color.BLUE);
-        grid.setLocation((dimension/2) - (grid.getWidth()/2),dimension/20);
-        //grid.setBorder(new EmptyBorder(20, 10, 20, 10));
-        add(grid, BorderLayout.CENTER);
-
-        //5 x 5
-        HoldBlockView eastPanel = new HoldBlockView("Next Block");
-        eastPanel.setPreferredSize(new Dimension(horizontalPadding, dimension - (verticalPadding * 2)));
-        add(eastPanel, BorderLayout.EAST);
-
-        //5 x 5
-        HoldBlockView westPanel = new HoldBlockView("Hold Block");
-        westPanel.grid.setPreferredSize(new Dimension(xSideGridDimension, ySideGridDimension));
-        westPanel.setPreferredSize(new Dimension(horizontalPadding, dimension - (verticalPadding * 2)));
-        add(westPanel, BorderLayout.WEST);
-
-        JPanel northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(verticalPadding, verticalPadding));
-        add(northPanel, BorderLayout.NORTH);
-
-        JPanel southPanel = new JPanel();
-        southPanel.setPreferredSize(new Dimension(verticalPadding,verticalPadding));
-        add(southPanel, BorderLayout.SOUTH);
-
+        //set frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
+        setSize(dimension, dimension);
+
+        //layout Sizes
+        int mainGridWidth = (dimension * 3)/7;
+        int mainGridHeight = (dimension * 6)/7;
+
+        //side/top bottom panels
+        int sidePanelWidth = (dimension - mainGridWidth)/2;
+        int bottomPanelHeight = dimension / 28;
+        int topPanelHeight = 3 * bottomPanelHeight;
+
+        //Layout
+        BorderLayout layout = new BorderLayout();
+
+
+        JPanel north = new JPanel();
+        north.setPreferredSize(new Dimension(dimension, topPanelHeight));
+        north.setBackground(Color.BLUE);
+
+        HoldBlockView east = new HoldBlockView("Hold Block");
+        east.setPreferredSize(new Dimension(sidePanelWidth, dimension));
+        east.setBackground(Color.CYAN);
+
+        JPanel south = new JPanel();
+        south.setPreferredSize(new Dimension(dimension, bottomPanelHeight));
+        south.setBackground(Color.RED);
+
+        HoldBlockView west = new HoldBlockView("Next Block");
+        west.setBackground(Color.YELLOW);
+        west.setPreferredSize(new Dimension(sidePanelWidth, dimension));
+
+        GridView gameGrid = new GridView(10, 20);
+        int gameGridXBorder = (mainGridWidth - gameGrid.width)/2;
+        int gameGridYBorder = (mainGridHeight - gameGrid.height)/2;
+        gameGrid.createBorder(gameGridXBorder - 10, gameGridYBorder - 35);
+        setLayout(layout);
+        add(north, layout.NORTH);
+        add(east, layout.EAST);
+        add(south, layout.SOUTH);
+        add(west, layout.WEST);
+        add(gameGrid, layout.CENTER);
     }
 }
