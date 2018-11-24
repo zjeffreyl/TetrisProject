@@ -24,7 +24,7 @@ public class HoldBlockView extends JPanel {
         grid = new GridView(4,2);
         int gameGridXBorder = (grid.width - (squareDimension * grid.cols))/2;
         int gameGridYBorder = (grid.height - (squareDimension * grid.rows))/2;
-        grid.createBorder(gameGridXBorder - 2, gameGridYBorder + 1);
+        grid.createBorder(gameGridXBorder, gameGridYBorder + 2);
 
         add(titleHeading);
         add(grid);

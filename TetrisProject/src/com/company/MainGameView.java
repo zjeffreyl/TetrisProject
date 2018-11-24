@@ -26,10 +26,15 @@ public class MainGameView extends JFrame {
         //Layout
         BorderLayout layout = new BorderLayout();
 
-
         JPanel north = new JPanel();
         north.setPreferredSize(new Dimension(dimension, topPanelHeight));
-        north.setBackground(Color.BLUE);
+            //Tetris Label
+            JLabel title = new JLabel("TETRIS");
+            title.setFont(new Font("Arial", Font.BOLD, 40));
+            title.setAlignmentX(Component.CENTER_ALIGNMENT);
+            title.setAlignmentY(Component.CENTER_ALIGNMENT);
+        north.add(title);
+
 
         HoldBlockView east = new HoldBlockView("Hold Block");
         east.setPreferredSize(new Dimension(sidePanelWidth, dimension));
@@ -46,7 +51,10 @@ public class MainGameView extends JFrame {
         GridView gameGrid = new GridView(10, 20);
         int gameGridXBorder = (mainGridWidth - gameGrid.width)/2;
         int gameGridYBorder = (mainGridHeight - gameGrid.height)/2;
-        gameGrid.createBorder(gameGridXBorder - 10, gameGridYBorder - 35);
+        gameGrid.createBorder(gameGridXBorder - 7, gameGridYBorder - 30);
+        gameGrid.squares[1][1].color = Color.blue;
+        gameGrid.squares[1][1].changeOccupied(true);
+
         setLayout(layout);
         add(north, layout.NORTH);
         add(east, layout.EAST);

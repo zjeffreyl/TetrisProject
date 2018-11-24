@@ -12,8 +12,9 @@ public class GridView extends JPanel
     public int rows;
     public int cols;
     public final static int squareDimension = 25;
-    GridSquare[] squares;
+    GridSquare[][] squares;
     public final int borderOffset = 5;
+    public final Color defaultColor = Color.darkGray;
 
     public GridView(int cols, int rows)
     {
@@ -25,11 +26,13 @@ public class GridView extends JPanel
         setLayout(new GridLayout(rows, cols));
         setPreferredSize(new Dimension(width + 5, height + 5));
         setMaximumSize(new Dimension(width + 5, height + 5));
-        squares = new GridSquare[rows*cols];
-        for(int i = 0; i < squares.length; i++)
+        squares = new GridSquare[rows][cols];
+        for(int i = 0; i < rows; i++)
         {
-            squares[i] = new GridSquare(1,1, (squareDimension));
-            this.add(squares[i]);
+            for(int j = 0; j < cols; j++) {
+                squares[i][j] = new GridSquare(i, j, (squareDimension), defaultColor);
+                this.add(squares[i][j]);
+            }
         }
         setBackground(Color.darkGray);
     }
