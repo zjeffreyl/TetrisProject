@@ -3,7 +3,7 @@ package com.company;
 public class View {
     public View()
     {
-        new MainGameView(1000);
+        new MainGameView(700);
     }
 
     public static void main(String[] args)
