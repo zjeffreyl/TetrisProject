@@ -1,19 +1,31 @@
-package com.company;
+package com.edu.sjsu.cs.cs151;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class MainGameView extends JFrame {
 
+    private HoldBlockView holdBlock;
+    private HoldBlockView nextBlock;
+    private int dimension;
+
     public MainGameView(int dimension)
     {
+        this.dimension = dimension;
         //set frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         setSize(dimension, dimension);
 
+        setGamePanels();
+
+        KeyListener keyListener = new KeyListener(this);
+        this.addKeyListener(keyListener);
+    }
+
+    public void setGamePanels()
+    {
         //layout Sizes
         int mainGridWidth = (dimension * 3)/7;
         int mainGridHeight = (dimension * 6)/7;
@@ -28,25 +40,25 @@ public class MainGameView extends JFrame {
 
         JPanel north = new JPanel();
         north.setPreferredSize(new Dimension(dimension, topPanelHeight));
-            //Tetris Label
-            JLabel title = new JLabel("TETRIS");
-            title.setFont(new Font("Arial", Font.BOLD, 40));
-            title.setAlignmentX(Component.CENTER_ALIGNMENT);
-            title.setAlignmentY(Component.CENTER_ALIGNMENT);
+        //Tetris Label
+        JLabel title = new JLabel("TETRIS");
+        title.setFont(new Font("Arial", Font.BOLD, 40));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setAlignmentY(Component.CENTER_ALIGNMENT);
         north.add(title);
 
 
-        HoldBlockView east = new HoldBlockView("Hold Block");
-        east.setPreferredSize(new Dimension(sidePanelWidth, dimension));
-        east.setBackground(Color.CYAN);
+        holdBlock = new HoldBlockView("Hold Block");
+        holdBlock.setPreferredSize(new Dimension(sidePanelWidth, dimension));
+        holdBlock.setBackground(Color.CYAN);
 
         JPanel south = new JPanel();
         south.setPreferredSize(new Dimension(dimension, bottomPanelHeight));
         south.setBackground(Color.RED);
 
-        HoldBlockView west = new HoldBlockView("Next Block");
-        west.setBackground(Color.YELLOW);
-        west.setPreferredSize(new Dimension(sidePanelWidth, dimension));
+        nextBlock = new HoldBlockView("Next Block");
+        nextBlock.setBackground(Color.YELLOW);
+        nextBlock.setPreferredSize(new Dimension(sidePanelWidth, dimension));
 
         GridView gameGrid = new GridView(10, 20);
         int gameGridXBorder = (mainGridWidth - gameGrid.width)/2;
@@ -57,9 +69,19 @@ public class MainGameView extends JFrame {
 
         setLayout(layout);
         add(north, layout.NORTH);
-        add(east, layout.EAST);
+        add(holdBlock, layout.WEST);
         add(south, layout.SOUTH);
-        add(west, layout.WEST);
+        add(nextBlock, layout.EAST);
         add(gameGrid, layout.CENTER);
+    }
+
+    public HoldBlockView getNextBlock()
+    {
+        return nextBlock;
+    }
+
+    public HoldBlockView getHoldBlock()
+    {
+        return holdBlock;
     }
 }
