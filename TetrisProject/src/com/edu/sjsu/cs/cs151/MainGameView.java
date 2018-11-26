@@ -19,9 +19,6 @@ public class MainGameView extends JFrame {
         setSize(dimension, dimension);
 
         setGamePanels();
-
-        KeyListener keyListener = new KeyListener(this);
-        this.addKeyListener(keyListener);
     }
 
     public void setGamePanels()

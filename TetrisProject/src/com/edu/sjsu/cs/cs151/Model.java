@@ -35,13 +35,14 @@ public class Model
         }
     }
 
-	public static class Tetromino
+	public class Tetromino
 	{
 	    Coordinate a;
 	    Coordinate b;
 	    Coordinate c;
 	    Coordinate d;
 	    Color color;
+
 		/**
 		 * Constructs Block object with specified coordinates
 		 */
@@ -60,7 +61,10 @@ public class Model
 		 */
 		public void rotate(Tetromino inputBlock)
 		{
-			
+			for (int x = 0; x < 4; x++)
+			{
+				int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
+			}
 		}
 
 		public Coordinate[] getCoordinates()
