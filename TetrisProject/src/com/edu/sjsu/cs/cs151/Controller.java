@@ -2,6 +2,8 @@ package com.edu.sjsu.cs.cs151;
 
 import sun.plugin2.message.Message;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 
 public class Controller {
@@ -12,7 +14,7 @@ public class Controller {
     private Valve[] valves = {new DoNewGameValve(), new DoHardDropValve(), new DoSoftDropValve(),
             new DoLeftValve(), new DoRightValve(), new DoRotateValve()};
     Model.NextTetrominoGenerator nextTetrominoGenerator;
-
+    private MainGameView mainGameView;
 
     public Controller(View view, Model model)
     {
@@ -21,6 +23,7 @@ public class Controller {
         nextTetrominoGenerator = model.new NextTetrominoGenerator();
         nextBlockView = view.mainGameView.getNextBlock();
         nextBlockView.inputTetromino(nextTetrominoGenerator.generateRandom());
+        mainGameView = view.getMainGameView();
     }
 
     private class DoNewGameValve implements Valve
@@ -79,6 +82,7 @@ public class Controller {
 
     public void mainLoop() throws Exception
     {
+        /**
         ValveResponse response = ValveResponse.EXECUTED;
         Message message = null;
         while(response != ValveResponse.FINISH)
@@ -102,6 +106,24 @@ public class Controller {
                 }
             }
         }
+         */
         //give a new model tetromino to nextBlockView Object
+
+        // get reference to block
+        Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
+        tester.moveTetromino(4, 0);
+
+
+        //spawn at grid (4,20) is center
+        mainGameView.getGameGrid().spawnTetromino(tester);
+
+        //create a timer
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Jeffrey smells");
+            }
+        },0,1000);
     }
 }

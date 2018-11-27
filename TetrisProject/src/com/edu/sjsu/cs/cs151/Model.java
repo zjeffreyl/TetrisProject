@@ -72,6 +72,14 @@ public class Model
             Coordinate[] coords = {a, b, c ,d};
             return coords;
         }
+
+        public void moveTetromino(int addX, int addY) {
+			for(Coordinate coord: this.getCoordinates()) {
+				coord.x += addX;
+				coord.y += addY;
+
+			}
+		}
 	}
 
 	public class NextTetrominoGenerator

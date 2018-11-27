@@ -28,8 +28,9 @@ public class GridView extends JPanel
         squares = new GridSquare[rows][cols];
         for(int i = 0; i < rows; i++)
         {
-            for(int j = 0; j < cols; j++) {
-                squares[i][j] = new GridSquare(i, j, (squareDimension), defaultColor);
+            for(int j = 0; j < cols; j++)
+            {
+                squares[i][j] = new GridSquare(i, j, (squareDimension));
                 this.add(squares[i][j]);
             }
         }
@@ -39,5 +40,13 @@ public class GridView extends JPanel
     public void createBorder(int xBorder, int yBorder)
     {
         setBorder(new EmptyBorder(yBorder, xBorder, yBorder, xBorder));
+    }
+
+    public void spawnTetromino(Model.Tetromino tetromino)
+    {
+        for(Model.Coordinate coord: tetromino.getCoordinates())
+        {
+            squares[coord.getY()][coord.getX()].changeOccupied(true, tetromino.color);
+        }
     }
 }

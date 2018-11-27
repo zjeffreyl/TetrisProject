@@ -47,7 +47,7 @@ public class HoldBlockView extends JPanel {
             GridSquare square = grid.squares[coordinate.getY()][coordinate.getX()];
             square.color = newTetromino.color;
             //Color in
-            square.changeOccupied(true);
+            square.changeOccupied(true, newTetromino.color);
         }
     }
 }

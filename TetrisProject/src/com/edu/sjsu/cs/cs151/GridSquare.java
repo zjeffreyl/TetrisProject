@@ -10,10 +10,9 @@ public class GridSquare extends JComponent {
     public Color color;
     private boolean occupied = false;
 
-    public GridSquare(int r, int c, int dimension, Color color) {
+    public GridSquare(int r, int c, int dimension) {
         row = r;
         col = c;
-        this.color = color;
         rectangle = new Rectangle(0, 0, dimension, dimension);
     }
 
@@ -27,9 +26,10 @@ public class GridSquare extends JComponent {
         return col;
     }
 
-    public void changeOccupied(boolean occupied)
+    public void changeOccupied(boolean occupied, Color color)
     {
         this.occupied = occupied;
+        this.color = color;
         revalidate();
     }
 
@@ -46,6 +46,9 @@ public class GridSquare extends JComponent {
         {
             g2D.setColor(color);
             g2D.fill(this.rectangle);
+        }
+        else {
+            g2D.setColor(Color.darkGray);
         }
         g2D.setStroke(new BasicStroke(1));
         g2D.setPaint(Color.white);

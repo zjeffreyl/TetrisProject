@@ -12,6 +12,10 @@ public class View {
         mainGameView.addKeyListener(keyListener);
     }
 
+    public MainGameView getMainGameView() {
+        return mainGameView;
+    }
+
     private class KeyListener implements java.awt.event.KeyListener {
 
         HoldBlockView nextBlockView;

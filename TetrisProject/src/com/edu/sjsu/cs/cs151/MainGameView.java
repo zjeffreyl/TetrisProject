@@ -8,6 +8,7 @@ public class MainGameView extends JFrame {
     private HoldBlockView holdBlock;
     private HoldBlockView nextBlock;
     private int dimension;
+    private GridView gameGrid;
 
     public MainGameView(int dimension)
     {
@@ -57,12 +58,10 @@ public class MainGameView extends JFrame {
         nextBlock.setBackground(Color.YELLOW);
         nextBlock.setPreferredSize(new Dimension(sidePanelWidth, dimension));
 
-        GridView gameGrid = new GridView(10, 20);
+        gameGrid = new GridView(10, 20);
         int gameGridXBorder = (mainGridWidth - gameGrid.width)/2;
         int gameGridYBorder = (mainGridHeight - gameGrid.height)/2;
         gameGrid.createBorder(gameGridXBorder - 7, gameGridYBorder - 30);
-        gameGrid.squares[1][1].color = Color.blue;
-        gameGrid.squares[1][1].changeOccupied(true);
 
         setLayout(layout);
         add(north, layout.NORTH);
@@ -70,6 +69,10 @@ public class MainGameView extends JFrame {
         add(south, layout.SOUTH);
         add(nextBlock, layout.EAST);
         add(gameGrid, layout.CENTER);
+    }
+
+    public GridView getGameGrid() {
+        return gameGrid;
     }
 
     public HoldBlockView getNextBlock()
