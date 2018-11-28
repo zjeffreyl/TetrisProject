@@ -1,5 +1,7 @@
 package com.edu.sjsu.cs.cs151;
 
+import com.edu.sjsu.cs.cs151.Message.FastDropMessage;
+
 import java.awt.event.KeyEvent;
 
 public class View {
@@ -40,28 +42,28 @@ public class View {
 
             if(key == KeyEvent.VK_SPACE)
             {
-                System.out.println("Space Released");
-                //Released means can change once
+                Tetris.queue.add(new Message.FastDropMessage());
                 //nextBlockView.inputTetromino();
             }
             else if(key == KeyEvent.VK_LEFT)
             {
-                System.out.println("Left Released");
+                Tetris.queue.add(new Message.LeftMessage());
                 //send message to move left
             }
             else if(key == KeyEvent.VK_RIGHT)
             {
-                System.out.println("Right Released");
+                Tetris.queue.add(new Message.RightMessage());
                 //send message to move right
             }
             else if(key == KeyEvent.VK_UP)
             {
-                System.out.println("Up Released");
+                Tetris.queue.add((Message) new Message.RotateMessage());
+                int x;
                 //Send message to rotate
             }
             else if(key == KeyEvent.VK_DOWN)
             {
-                System.out.println("Down Released");
+                Tetris.queue.add((Message) new Message.SlowDropMessage());
                 //Send message to fast drop
             }
         }

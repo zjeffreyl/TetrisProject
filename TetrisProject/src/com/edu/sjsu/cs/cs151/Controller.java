@@ -1,7 +1,5 @@
 package com.edu.sjsu.cs.cs151;
 
-import sun.plugin2.message.Message;
-
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,8 +14,7 @@ public class Controller {
     private View view;
     private Model model;
     private HoldBlockView nextBlockView;
-    private BlockingQueue<Message> messageQueue;
-    private List<Valve> valves = new LinkedList<Valve>();
+    private Valve[] valves;
     Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
 
@@ -28,6 +25,8 @@ public class Controller {
         nextTetrominoGenerator = model.new NextTetrominoGenerator();
         nextBlockView = view.mainGameView.getNextBlock();
         nextBlockView.inputTetromino(nextTetrominoGenerator.generateRandom());
+        valves = new Valve[]{new DoNewGameValve(), new DoHardDropValve(), new DoSoftDropValve(), new DoLeftValve(),
+                new DoRightValve(), new DoRotateValve()};
         mainGameView = view.getMainGameView();
     }
 
@@ -38,6 +37,7 @@ public class Controller {
         public ValveResponse execute(Message message) {
             return null;
         }
+
     }
 
     private class DoHardDropValve implements Valve
@@ -71,7 +71,8 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
+        public ValveResponse execute(Message message)
+        {
             return null;
         }
     }
@@ -82,13 +83,14 @@ public class Controller {
         @Override
         public ValveResponse execute(Message message)
         {
-//            if (message.getClass() != RotateMessage.class)
-//            {
-//                return ValveResponse.MISS;
-//            }
+            if (message.getClass() != Message.RotateMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
 
-            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-            tester.rotate();
+//            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
+//            tester.rotate();
+            System.out.println("Rotate valve accessed successfully");
 
             return ValveResponse.EXECUTED;
         }
@@ -96,54 +98,44 @@ public class Controller {
 
     public void mainLoop() throws Exception
     {
-        /**
         ValveResponse response = ValveResponse.EXECUTED;
         Message message = null;
-        while(response != ValveResponse.FINISH)
-        {
-            try
-            {
-                message = (Message)messageQueue.take();
-            }
+        while(response != ValveResponse.FINISH) {
 
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            message = Tetris.queue.poll();
 
-            for(Valve valve : valves)
-            {
+            for (Valve valve : valves) {
                 response = valve.execute(message);
-                if (response != ValveResponse.MISS)
-                {
+                if (response != ValveResponse.MISS) {
                     break;
                 }
             }
         }
-         */
         //give a new model tetromino to nextBlockView Object
 
-        // get reference to block
-        Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-        tester.moveTetromino(4, 10);
-        tester.rotate();
-
-
-        //spawn at grid (4,20) is center
-        mainGameView.getGameGrid().spawnTetromino(tester);
-
-        //create a timer
-
-        ActionListener listener = event ->
-        {
-            mainGameView.getGameGrid().clearTetromino(tester);
-            tester.rotate();
-            mainGameView.getGameGrid().spawnTetromino(tester);
-        };
-
-        final int DELAY = 1000;
-        Timer t = new Timer(DELAY, listener);
-        t.start();
+//        // get reference to block
+//        Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
+//        tester.moveTetromino(4, 0);
+//        tester.rotate();
+//
+//
+//        //spawn at grid (4,20) is center
+//        mainGameView.getGameGrid().spawnTetromino(tester);
+//
+//        //create a timer
+//
+//        ActionListener listener = event ->
+//        {
+//            System.out.println("Jeffrey smells");
+////            mainGameView.getGameGrid().clearTetromino(tester);
+////            tester.rotate();
+////            mainGameView.getGameGrid().spawnTetromino(tester);
+//            tester.moveTetromino(0, 1);
+//        };
+//
+//        final int DELAY = 1000;
+//        Timer t = new Timer(DELAY, listener);
+//        t.start();
 
         //Timer timer = new Timer();
 //        timer.schedule(new TimerTask() {
