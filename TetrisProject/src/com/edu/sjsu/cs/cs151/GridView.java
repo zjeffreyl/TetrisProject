@@ -10,18 +10,18 @@ public class GridView extends JPanel
     int width;
     public int rows;
     public int cols;
-    public final static int squareDimension = 25;
+    public final static int SQUAREDIMENSION = 25;
     GridSquare[][] squares;
-    public final int borderOffset = 5;
-    public final Color defaultColor = Color.darkGray;
+    public final int BORDEROFFSET = 5;
+    public final Color DEFAULTCOLOR = Color.darkGray;
 
     public GridView(int cols, int rows)
     {
         this.rows = rows;
         this.cols = cols;
 
-        height = rows * squareDimension + borderOffset;
-        width = cols * squareDimension + borderOffset;
+        height = rows * SQUAREDIMENSION + BORDEROFFSET;
+        width = cols * SQUAREDIMENSION + BORDEROFFSET;
         setLayout(new GridLayout(rows, cols));
         setPreferredSize(new Dimension(width + 5, height + 5));
         setMaximumSize(new Dimension(width + 5, height + 5));
@@ -30,7 +30,7 @@ public class GridView extends JPanel
         {
             for(int j = 0; j < cols; j++)
             {
-                squares[i][j] = new GridSquare(i, j, (squareDimension));
+                squares[i][j] = new GridSquare(i, j, (SQUAREDIMENSION));
                 this.add(squares[i][j]);
             }
         }
@@ -47,6 +47,14 @@ public class GridView extends JPanel
         for(Model.Coordinate coord: tetromino.getCoordinates())
         {
             squares[coord.getY()][coord.getX()].changeOccupied(true, tetromino.color);
+        }
+    }
+
+    public void clearTetromino(Model.Tetromino tetromino)
+    {
+        for(Model.Coordinate coord: tetromino.getCoordinates())
+        {
+            squares[coord.getY()][coord.getX()].changeOccupied(false, tetromino.color);
         }
     }
 }

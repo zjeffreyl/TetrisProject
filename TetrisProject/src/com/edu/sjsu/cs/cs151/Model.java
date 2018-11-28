@@ -70,14 +70,14 @@ public class Model
 				int xResult = coords[m].x - coords[1].x;
 				int yResult = coords[m].y - coords[1].y;
 
-				int xNew = 0 * xResult + (-1) * yResult;
-				int yNew = 1 * xResult + 0 * yResult;
+				int yNew = 0 * yResult + (-1) * xResult;
+				int xNew = 1 * yResult + 0 * xResult;
 
 				int xChange = xNew - xResult;
 				int yChange = yNew - yResult;
 
 				coords[m].setX(coords[m].getX() + xChange);
-				coords[m].y += yChange;
+				coords[m].setY(coords[m].getY() + yChange);
 
 				//int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
 			}
@@ -89,7 +89,7 @@ public class Model
         }
 
         public void moveTetromino(int addX, int addY) {
-			for(Coordinate coord: this.getCoordinates()) {
+			for(Coordinate coord: coords) {
 				coord.x += addX;
 				coord.y += addY;
 

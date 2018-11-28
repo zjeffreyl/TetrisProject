@@ -2,10 +2,14 @@ package com.edu.sjsu.cs.cs151;
 
 import sun.plugin2.message.Message;
 
+import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.time.*;
+import javax.swing.*;
+import javax.swing.Timer;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 
 public class Controller {
@@ -121,21 +125,36 @@ public class Controller {
 
         // get reference to block
         Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-        tester.moveTetromino(4, 0);
+        tester.moveTetromino(4, 10);
+        tester.rotate();
 
 
         //spawn at grid (4,20) is center
         mainGameView.getGameGrid().spawnTetromino(tester);
 
         //create a timer
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("Jeffrey smells");
-                tester.rotate();
-                System.out.println(tester.getCoordinates()[0].getX());
-            }
-        },0,1000);
+
+        ActionListener listener = event ->
+        {
+            mainGameView.getGameGrid().clearTetromino(tester);
+            tester.rotate();
+            mainGameView.getGameGrid().spawnTetromino(tester);
+        };
+
+        final int DELAY = 1000;
+        Timer t = new Timer(DELAY, listener);
+        t.start();
+
+        //Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("Jeffrey smells");
+////                mainGameView.getGameGrid().clearTetromino(tester);
+////                tester.rotate();
+////                System.out.println(tester.getCoordinates()[0].getX());
+////                mainGameView.getGameGrid().spawnTetromino(tester);
+//            }
+//        },0,1000);
     }
 }

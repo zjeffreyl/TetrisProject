@@ -2,7 +2,7 @@ package com.edu.sjsu.cs.cs151;
 
 import javax.swing.*;
 
-import static com.edu.sjsu.cs.cs151.GridView.squareDimension;
+import static com.edu.sjsu.cs.cs151.GridView.SQUAREDIMENSION;
 
 public class HoldBlockView extends JPanel {
 
@@ -20,8 +20,8 @@ public class HoldBlockView extends JPanel {
         titleHeading.setAlignmentX(CENTER_ALIGNMENT);
 
         grid = new GridView(4,2);
-        int gameGridXBorder = (grid.width - (squareDimension * grid.cols))/2;
-        int gameGridYBorder = (grid.height - (squareDimension * grid.rows))/2;
+        int gameGridXBorder = (grid.width - (SQUAREDIMENSION * grid.cols))/2;
+        int gameGridYBorder = (grid.height - (SQUAREDIMENSION * grid.rows))/2;
         grid.createBorder(gameGridXBorder, gameGridYBorder + 2);
 
         add(titleHeading);
