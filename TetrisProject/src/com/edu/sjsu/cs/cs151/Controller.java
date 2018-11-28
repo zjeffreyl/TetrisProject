@@ -96,6 +96,12 @@ public class Controller {
         }
     }
 
+    public void animateTetromino()
+    {
+        //new coordinate set
+        //grid referenced here
+    }
+
     public void mainLoop() throws Exception
     {
         ValveResponse response = ValveResponse.EXECUTED;
