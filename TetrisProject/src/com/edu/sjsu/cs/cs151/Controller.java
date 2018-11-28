@@ -2,6 +2,8 @@ package com.edu.sjsu.cs.cs151;
 
 import sun.plugin2.message.Message;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
@@ -11,8 +13,7 @@ public class Controller {
     private Model model;
     private HoldBlockView nextBlockView;
     private BlockingQueue<Message> messageQueue;
-    private Valve[] valves = {new DoNewGameValve(), new DoHardDropValve(), new DoSoftDropValve(),
-            new DoLeftValve(), new DoRightValve(), new DoRotateValve()};
+    private List<Valve> valves = new LinkedList<Valve>();
     Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
 
@@ -75,8 +76,17 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+//            if (message.getClass() != RotateMessage.class)
+//            {
+//                return ValveResponse.MISS;
+//            }
+
+            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
+            tester.rotate();
+
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -123,6 +133,8 @@ public class Controller {
             @Override
             public void run() {
                 System.out.println("Jeffrey smells");
+                tester.rotate();
+                System.out.println(tester.getCoordinates()[0].getX());
             }
         },0,1000);
     }

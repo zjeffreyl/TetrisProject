@@ -30,10 +30,13 @@ public class Model
             return x;
         }
 
-        public int getY() {
-            return y;
-        }
-    }
+        public int getY() { return y; }
+
+        public void setX(int x) { this.x = x; }
+
+		public void setY(int y) { this.y = y; }
+
+	}
 
 	public class Tetromino
 	{
@@ -41,6 +44,7 @@ public class Model
 	    Coordinate b;
 	    Coordinate c;
 	    Coordinate d;
+	    Coordinate[] coords;
 	    Color color;
 
 		/**
@@ -52,24 +56,35 @@ public class Model
             this.b = b;
             this.c = c;
             this.d = d;
+			coords = new Coordinate[]{this.a, this.b, this.c, this.d};
             this.color = color;
 		}
 		
 		/**
 		 * Rotates specified block 90 degrees clockwise
-		 * @param inputBlock block to be rotated
 		 */
-		public void rotate(Tetromino inputBlock)
+		public void rotate()
 		{
-			for (int x = 0; x < 4; x++)
+			for (int m = 0; m < 4; m++)
 			{
-				int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
+				int xResult = coords[m].x - coords[1].x;
+				int yResult = coords[m].y - coords[1].y;
+
+				int xNew = 0 * xResult + (-1) * yResult;
+				int yNew = 1 * xResult + 0 * yResult;
+
+				int xChange = xNew - xResult;
+				int yChange = yNew - yResult;
+
+				coords[m].setX(coords[m].getX() + xChange);
+				coords[m].y += yChange;
+
+				//int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
 			}
 		}
 
 		public Coordinate[] getCoordinates()
         {
-            Coordinate[] coords = {a, b, c ,d};
             return coords;
         }
 

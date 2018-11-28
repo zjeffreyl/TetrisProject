@@ -37,11 +37,32 @@ public class View {
         @Override
         public void keyReleased(KeyEvent e) {
             int key = e.getKeyCode();
+
             if(key == KeyEvent.VK_SPACE)
             {
                 System.out.println("Space Released");
                 //Released means can change once
                 //nextBlockView.inputTetromino();
+            }
+            else if(key == KeyEvent.VK_LEFT)
+            {
+                System.out.println("Left Released");
+                //send message to move left
+            }
+            else if(key == KeyEvent.VK_RIGHT)
+            {
+                System.out.println("Right Released");
+                //send message to move right
+            }
+            else if(key == KeyEvent.VK_UP)
+            {
+                System.out.println("Up Released");
+                //Send message to rotate
+            }
+            else if(key == KeyEvent.VK_DOWN)
+            {
+                System.out.println("Down Released");
+                //Send message to fast drop
             }
         }
     }
