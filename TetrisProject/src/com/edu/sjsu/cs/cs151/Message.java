@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable
 {
+    static class NewGameMessage extends Message{}
     static class RotateMessage extends Message{}
     static class LeftMessage extends Message{}
     static class RightMessage extends Message{}

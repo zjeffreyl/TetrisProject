@@ -34,8 +34,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.NewGameMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
 
     }
@@ -44,8 +49,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.FastDropMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -53,8 +63,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.SlowDropMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -62,8 +77,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.LeftMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -73,7 +93,11 @@ public class Controller {
         @Override
         public ValveResponse execute(Message message)
         {
-            return null;
+            if (message.getClass() != Message.RightMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -108,12 +132,14 @@ public class Controller {
         Message message = null;
         while(response != ValveResponse.FINISH) {
 
-            message = Tetris.queue.poll();
+            if (!Tetris.queue.isEmpty()) {
+                message = Tetris.queue.poll();
 
-            for (Valve valve : valves) {
-                response = valve.execute(message);
-                if (response != ValveResponse.MISS) {
-                    break;
+                for (Valve valve : valves) {
+                    response = valve.execute(message);
+                    if (response != ValveResponse.MISS) {
+                        break;
+                    }
                 }
             }
         }
