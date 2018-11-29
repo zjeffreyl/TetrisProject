@@ -1,26 +1,23 @@
 package com.edu.sjsu.cs.cs151.Controller;
 
+import com.edu.sjsu.cs.cs151.Views.Message;
 import com.edu.sjsu.cs.cs151.Models.Model;
+import com.edu.sjsu.cs.cs151.Tetris;
 import com.edu.sjsu.cs.cs151.Valve;
 import com.edu.sjsu.cs.cs151.ValveResponse;
 import com.edu.sjsu.cs.cs151.Views.GridView;
 import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
 import com.edu.sjsu.cs.cs151.Views.MainGameView;
 import com.edu.sjsu.cs.cs151.Views.View;
-import sun.plugin2.message.Message;
 
 import java.util.Timer;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.TimerTask;
-import java.util.concurrent.BlockingQueue;
 
 public class Controller {
     private View view;
     private Model model;
     private HoldBlockView nextBlockView;
-    private BlockingQueue<Message> messageQueue;
-    private List<Valve> valves = new LinkedList<Valve>();
+    private Valve[] valves;
     Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
     private GridView gameGrid;
@@ -32,13 +29,17 @@ public class Controller {
         this.view = view;
         this.model = model;
         nextTetrominoGenerator = model.new NextTetrominoGenerator();
-        //nextBlockView = view.mainGameView.getNextBlock();
-        //nextBlockView.inputTetromino(nextTetrominoGenerator.generateRandom());
+        nextBlockView = view.getMainGameView().getNextBlock();
+
+        valves = new Valve[]{new DoNewGameValve(), new DoHardDropValve(), new DoSoftDropValve(), new DoLeftValve(),
+                new DoRightValve(), new DoRotateValve()};
         mainGameView = view.getMainGameView();
         gameGrid = mainGameView.getGameGrid();
 
         //Needs to be in VALVE!
         currentTetromino = nextTetrominoGenerator.generateRandom();
+
+
     }
 
     //Paint or delete tetromino(based on its values)
@@ -59,17 +60,28 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.NewGameMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
+
     }
 
     private class DoHardDropValve implements Valve
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.FastDropMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -77,8 +89,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.SlowDropMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -86,8 +103,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.LeftMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -95,8 +117,13 @@ public class Controller {
     {
 
         @Override
-        public ValveResponse execute(Message message) {
-            return null;
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.RightMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            return ValveResponse.EXECUTED;
         }
     }
 
@@ -106,28 +133,48 @@ public class Controller {
         @Override
         public ValveResponse execute(Message message)
         {
-//            if (message.getClass() != RotateMessage.class)
-//            {
-//                return ValveResponse.MISS;
-//            }
+            if (message.getClass() != Message.RotateMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
 
-            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-            tester.rotate();
+//            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
+//            tester.rotate();
+            System.out.println("Rotate valve accessed successfully");
 
             return ValveResponse.EXECUTED;
         }
     }
 
+    public void animateTetromino()
+    {
+        //new coordinate set
+        //grid referenced here
+    }
+
     public void mainLoop() throws Exception
     {
-        //give a new model tetromino to nextBlockView Object
+        ValveResponse response = ValveResponse.EXECUTED;
+        Message message = null;
+        while(response != ValveResponse.FINISH) {
 
-        //create a timer
+            if (!Tetris.queue.isEmpty()) {
+                message = Tetris.queue.poll();
+
+                for (Valve valve : valves) {
+                    response = valve.execute(message);
+                    if (response != ValveResponse.MISS) {
+                        break;
+                    }
+                }
+            }
+        }
+
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
- 
+
             }
         },0,1000);
     }
