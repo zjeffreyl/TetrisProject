@@ -40,10 +40,18 @@ public class Controller {
 
     }
 
+    public void spawnTetromino()
+    {
+        currentTetromino = nextTetrominoGenerator.generateRandom();
+        translateTetromino(4, 0);
+        paintTetromino(true);
+    }
+
     public void setCurrentTetromino(Model.Tetromino newTetromino)
     {
         currentTetromino = newTetromino;
     }
+
     //Paint or delete tetromino(based on its values)
     public void paintTetromino(boolean paint)
     {
@@ -53,9 +61,14 @@ public class Controller {
         }
     }
 
-    public void doRotate(Model.Tetromino tetromino)
+    public void doRotate()
     {
-
+        if (currentTetromino.getColor() != Color.YELLOW)
+        {
+            paintTetromino(false);
+            currentTetromino.rotate();
+            paintTetromino(true);
+        }
     }
 
 
@@ -81,9 +94,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            //First new Tetromino
-            currentTetromino = nextTetrominoGenerator.generateRandom();
-            paintTetromino(true);
+
+            spawnTetromino();
+
             return ValveResponse.EXECUTED;
         }
 
@@ -113,6 +126,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+
+            translateTetromino(0, 1);
+
             return ValveResponse.EXECUTED;
         }
     }
@@ -127,6 +143,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+
+            translateTetromino(-1, 0);
+
             return ValveResponse.EXECUTED;
         }
     }
@@ -141,6 +160,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+
+            translateTetromino(1, 0);
+
             return ValveResponse.EXECUTED;
         }
     }
@@ -155,8 +177,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            System.out.println("In rotate valve");
-            gameGrid.getSquares()[1][1].changeOccupied(true, Color.BLUE);
+
+            doRotate();
+
             return ValveResponse.EXECUTED;
         }
     }

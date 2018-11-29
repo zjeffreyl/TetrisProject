@@ -58,7 +58,6 @@ public class View {
             else if(key == KeyEvent.VK_UP)
             {
                 Tetris.queue.add((Message) new Message.RotateMessage());
-                System.out.println("Up pressed");
             }
             else if(key == KeyEvent.VK_DOWN)
             {

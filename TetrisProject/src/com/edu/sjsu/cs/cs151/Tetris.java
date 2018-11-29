@@ -22,8 +22,6 @@ public class Tetris
         @Override
         public void run() {
             game.translateTetromino(0,1);
-            //System.out.println(game.getCurrentTetromino().getCoordinates());
-            System.out.println("1 seconds");
         }
     }
 
@@ -31,7 +29,8 @@ public class Tetris
         view = new View();
         model = new Model();
         game = new Controller(view, model);
-        game.setCurrentTetromino(game.nextTetrominoGenerator.generateRandom());
+        //game.setCurrentTetromino(game.nextTetrominoGenerator.generateRandom());
+        game.spawnTetromino();
         //Timer thread running
         Timer timer = new Timer();
         timer.schedule(new DropTimer(),0, 1000);

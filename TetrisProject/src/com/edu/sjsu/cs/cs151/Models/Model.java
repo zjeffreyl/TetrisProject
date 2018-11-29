@@ -76,8 +76,18 @@ public class Model
 				int xChange = xNew - xResult;
 				int yChange = yNew - yResult;
 
-				coords[m].setX(coords[m].getX() + xChange);
-				coords[m].setY(coords[m].getY() + yChange);
+				if (coords[m].x + xChange >= 0 && coords[m].x + xChange <= 9)
+				{
+					if (coords[m].y + yChange >= 0 && coords[m].y + yChange <= 19)
+					{
+						coords[m].x += xChange;
+						coords[m].y += yChange;
+					} else
+						break;
+				}
+
+//				coords[m].setX(coords[m].getX() + xChange);
+//				coords[m].setY(coords[m].getY() + yChange);
 
 				//int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
 			}
@@ -90,8 +100,15 @@ public class Model
 
         public void moveTetromino(int addX, int addY) {
 			for(Coordinate coord: coords) {
-				coord.x += addX;
-				coord.y += addY;
+
+				if (coord.x + addX >= 0 && coord.x + addX <= 9) {
+					if (coord.y + addY >= 0 && coord.y + addY <= 19) {
+						coord.x += addX;
+						coord.y += addY;
+					} else
+						break;
+
+				}
 			}
 		}
 
