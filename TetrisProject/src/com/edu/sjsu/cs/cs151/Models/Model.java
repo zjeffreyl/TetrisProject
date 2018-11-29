@@ -92,7 +92,6 @@ public class Model
 			for(Coordinate coord: coords) {
 				coord.x += addX;
 				coord.y += addY;
-
 			}
 		}
 

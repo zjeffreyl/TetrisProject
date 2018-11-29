@@ -10,6 +10,7 @@ import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
 import com.edu.sjsu.cs.cs151.Views.MainGameView;
 import com.edu.sjsu.cs.cs151.Views.View;
 
+import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,7 +19,7 @@ public class Controller {
     private Model model;
     private HoldBlockView nextBlockView;
     private Valve[] valves;
-    Model.NextTetrominoGenerator nextTetrominoGenerator;
+    public Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
     private GridView gameGrid;
 
@@ -36,12 +37,13 @@ public class Controller {
         mainGameView = view.getMainGameView();
         gameGrid = mainGameView.getGameGrid();
 
-        //Needs to be in VALVE!
-        currentTetromino = nextTetrominoGenerator.generateRandom();
-
 
     }
 
+    public void setCurrentTetromino(Model.Tetromino newTetromino)
+    {
+        currentTetromino = newTetromino;
+    }
     //Paint or delete tetromino(based on its values)
     public void paintTetromino(boolean paint)
     {
@@ -56,6 +58,19 @@ public class Controller {
 
     }
 
+
+    public void translateTetromino(int addX, int addY)
+    {
+        paintTetromino(false);
+        currentTetromino.moveTetromino(addX, addY);
+        paintTetromino(true);
+    }
+
+    public Model.Tetromino getCurrentTetromino()
+    {
+        return currentTetromino;
+    }
+
     private class DoNewGameValve implements Valve
     {
 
@@ -66,6 +81,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+            //First new Tetromino
+            currentTetromino = nextTetrominoGenerator.generateRandom();
+            paintTetromino(true);
             return ValveResponse.EXECUTED;
         }
 
@@ -137,19 +155,10 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-
-//            Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-//            tester.rotate();
-            System.out.println("Rotate valve accessed successfully");
-
+            System.out.println("In rotate valve");
+            gameGrid.getSquares()[1][1].changeOccupied(true, Color.BLUE);
             return ValveResponse.EXECUTED;
         }
-    }
-
-    public void animateTetromino()
-    {
-        //new coordinate set
-        //grid referenced here
     }
 
     public void mainLoop() throws Exception
@@ -157,7 +166,7 @@ public class Controller {
         ValveResponse response = ValveResponse.EXECUTED;
         Message message = null;
         while(response != ValveResponse.FINISH) {
-
+            Thread.yield();
             if (!Tetris.queue.isEmpty()) {
                 message = Tetris.queue.poll();
 
@@ -169,13 +178,5 @@ public class Controller {
                 }
             }
         }
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-
-            }
-        },0,1000);
     }
 }
