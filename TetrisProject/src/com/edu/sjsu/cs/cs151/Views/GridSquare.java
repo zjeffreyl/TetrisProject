@@ -30,6 +30,7 @@ public class GridSquare extends JComponent {
     {
         this.occupied = occupied;
         this.color = color;
+        repaint();
         revalidate();
     }
 
