@@ -1,4 +1,4 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Models;
 
 import java.awt.*;
 import java.util.Random;
@@ -94,6 +94,10 @@ public class Model
 				coord.y += addY;
 
 			}
+		}
+
+		public Color getColor() {
+			return color;
 		}
 	}
 

@@ -1,6 +1,6 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Views;
 
-import com.edu.sjsu.cs.cs151.Message.FastDropMessage;
+import com.edu.sjsu.cs.cs151.Tetris;
 
 import java.awt.event.KeyEvent;
 

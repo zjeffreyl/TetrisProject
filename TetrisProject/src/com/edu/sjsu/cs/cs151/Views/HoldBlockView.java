@@ -1,8 +1,10 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Views;
+
+import com.edu.sjsu.cs.cs151.Models.Model;
 
 import javax.swing.*;
 
-import static com.edu.sjsu.cs.cs151.GridView.SQUAREDIMENSION;
+import static com.edu.sjsu.cs.cs151.Views.GridView.SQUAREDIMENSION;
 
 public class HoldBlockView extends JPanel {
 
@@ -36,18 +38,5 @@ public class HoldBlockView extends JPanel {
     @Override
     public int getWidth() {
         return super.getWidth();
-    }
-
-    //
-    public void inputTetromino(Model.Tetromino newTetromino)
-    {
-        Model.Coordinate[] coords = newTetromino.getCoordinates();
-        for(Model.Coordinate coordinate : coords)
-        {
-            GridSquare square = grid.squares[coordinate.getY()][coordinate.getX()];
-            square.color = newTetromino.color;
-            //Color in
-            square.changeOccupied(true, newTetromino.color);
-        }
     }
 }

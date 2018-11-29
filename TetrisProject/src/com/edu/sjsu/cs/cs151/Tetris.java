@@ -1,10 +1,13 @@
 package com.edu.sjsu.cs.cs151;
 
 
+import com.edu.sjsu.cs.cs151.Controller.Controller;
+import com.edu.sjsu.cs.cs151.Models.Model;
+import com.edu.sjsu.cs.cs151.Views.Message;
+import com.edu.sjsu.cs.cs151.Views.View;
+
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Tetris
 {
