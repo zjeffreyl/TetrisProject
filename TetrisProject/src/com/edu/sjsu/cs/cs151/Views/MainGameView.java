@@ -1,4 +1,7 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Views;
+
+import com.edu.sjsu.cs.cs151.Views.GridView;
+import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
 
 import javax.swing.*;
 import java.awt.*;

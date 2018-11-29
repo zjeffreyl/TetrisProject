@@ -1,15 +1,18 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Controller;
 
+import com.edu.sjsu.cs.cs151.Models.Model;
+import com.edu.sjsu.cs.cs151.Valve;
+import com.edu.sjsu.cs.cs151.ValveResponse;
+import com.edu.sjsu.cs.cs151.Views.GridView;
+import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
+import com.edu.sjsu.cs.cs151.Views.MainGameView;
+import com.edu.sjsu.cs.cs151.Views.View;
 import sun.plugin2.message.Message;
 
-import java.awt.event.ActionListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.time.*;
-import javax.swing.*;
-import javax.swing.Timer;
+import java.util.Timer;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 
 public class Controller {
@@ -20,15 +23,36 @@ public class Controller {
     private List<Valve> valves = new LinkedList<Valve>();
     Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
+    private GridView gameGrid;
+
+    private Model.Tetromino currentTetromino;
 
     public Controller(View view, Model model)
     {
         this.view = view;
         this.model = model;
         nextTetrominoGenerator = model.new NextTetrominoGenerator();
-        nextBlockView = view.mainGameView.getNextBlock();
-        nextBlockView.inputTetromino(nextTetrominoGenerator.generateRandom());
+        //nextBlockView = view.mainGameView.getNextBlock();
+        //nextBlockView.inputTetromino(nextTetrominoGenerator.generateRandom());
         mainGameView = view.getMainGameView();
+        gameGrid = mainGameView.getGameGrid();
+
+        //Needs to be in VALVE!
+        currentTetromino = nextTetrominoGenerator.generateRandom();
+    }
+
+    //Paint or delete tetromino(based on its values)
+    public void paintTetromino(boolean paint)
+    {
+        for(Model.Coordinate coord: currentTetromino.getCoordinates())
+        {
+            gameGrid.getSquares()[coord.getY()][coord.getX()].changeOccupied(paint, currentTetromino.getColor());
+        }
+    }
+
+    public void doRotate(Model.Tetromino tetromino)
+    {
+
     }
 
     private class DoNewGameValve implements Valve
@@ -96,65 +120,15 @@ public class Controller {
 
     public void mainLoop() throws Exception
     {
-        /**
-        ValveResponse response = ValveResponse.EXECUTED;
-        Message message = null;
-        while(response != ValveResponse.FINISH)
-        {
-            try
-            {
-                message = (Message)messageQueue.take();
-            }
-
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-
-            for(Valve valve : valves)
-            {
-                response = valve.execute(message);
-                if (response != ValveResponse.MISS)
-                {
-                    break;
-                }
-            }
-        }
-         */
         //give a new model tetromino to nextBlockView Object
 
-        // get reference to block
-        Model.Tetromino tester = nextTetrominoGenerator.generateRandom();
-        tester.moveTetromino(4, 10);
-        tester.rotate();
-
-
-        //spawn at grid (4,20) is center
-        mainGameView.getGameGrid().spawnTetromino(tester);
-
         //create a timer
-
-        ActionListener listener = event ->
-        {
-            mainGameView.getGameGrid().clearTetromino(tester);
-            tester.rotate();
-            mainGameView.getGameGrid().spawnTetromino(tester);
-        };
-
-        final int DELAY = 1000;
-        Timer t = new Timer(DELAY, listener);
-        t.start();
-
-        //Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("Jeffrey smells");
-////                mainGameView.getGameGrid().clearTetromino(tester);
-////                tester.rotate();
-////                System.out.println(tester.getCoordinates()[0].getX());
-////                mainGameView.getGameGrid().spawnTetromino(tester);
-//            }
-//        },0,1000);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+ 
+            }
+        },0,1000);
     }
 }

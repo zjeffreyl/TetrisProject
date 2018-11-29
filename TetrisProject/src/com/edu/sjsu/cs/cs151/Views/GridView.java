@@ -1,4 +1,6 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Views;
+
+import com.edu.sjsu.cs.cs151.Models.Model;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -42,19 +44,8 @@ public class GridView extends JPanel
         setBorder(new EmptyBorder(yBorder, xBorder, yBorder, xBorder));
     }
 
-    public void spawnTetromino(Model.Tetromino tetromino)
+    public GridSquare[][] getSquares()
     {
-        for(Model.Coordinate coord: tetromino.getCoordinates())
-        {
-            squares[coord.getY()][coord.getX()].changeOccupied(true, tetromino.color);
-        }
-    }
-
-    public void clearTetromino(Model.Tetromino tetromino)
-    {
-        for(Model.Coordinate coord: tetromino.getCoordinates())
-        {
-            squares[coord.getY()][coord.getX()].changeOccupied(false, tetromino.color);
-        }
+        return squares;
     }
 }

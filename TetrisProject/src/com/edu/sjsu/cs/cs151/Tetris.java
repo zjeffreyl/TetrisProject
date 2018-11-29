@@ -1,6 +1,9 @@
 package com.edu.sjsu.cs.cs151;
 
 
+import com.edu.sjsu.cs.cs151.Controller.Controller;
+import com.edu.sjsu.cs.cs151.Models.Model;
+import com.edu.sjsu.cs.cs151.Views.View;
 import sun.plugin2.message.Message;
 
 import java.util.concurrent.BlockingQueue;
