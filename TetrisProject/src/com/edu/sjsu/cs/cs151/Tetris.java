@@ -22,8 +22,6 @@ public class Tetris
         @Override
         public void run() {
             game.translateTetromino(0,1);
-            //System.out.println(game.getCurrentTetromino().getCoordinates());
-            System.out.println("1 seconds");
         }
     }
 

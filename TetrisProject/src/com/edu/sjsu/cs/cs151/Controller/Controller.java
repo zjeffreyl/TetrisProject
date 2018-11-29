@@ -11,8 +11,6 @@ import com.edu.sjsu.cs.cs151.Views.MainGameView;
 import com.edu.sjsu.cs.cs151.Views.View;
 
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Controller {
     private View view;
@@ -58,12 +56,29 @@ public class Controller {
 
     }
 
+    public boolean checkBound(int xMovement, int yMovement)
+    {
+        for(Model.Coordinate coordinate: currentTetromino.getCoordinates())
+        {
+            int totalXMovement = coordinate.getX() + xMovement;
+            int totalYMovement = coordinate.getY() + yMovement;
+            if(totalXMovement > 9 || totalXMovement < 0 || totalYMovement > 19)
+            {
+                return false;
+            }
+
+        }
+        return true;
+    }
 
     public void translateTetromino(int addX, int addY)
     {
-        paintTetromino(false);
-        currentTetromino.moveTetromino(addX, addY);
-        paintTetromino(true);
+        if(checkBound(addX, addY))
+        {
+            paintTetromino(false);
+            currentTetromino.moveTetromino(addX, addY);
+            paintTetromino(true);
+        }
     }
 
     public Model.Tetromino getCurrentTetromino()
@@ -113,6 +128,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+            translateTetromino(0, 1);
             return ValveResponse.EXECUTED;
         }
     }
@@ -127,6 +143,9 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+            if(checkBound(-1,0)) {
+                translateTetromino(-1, 0);
+            }
             return ValveResponse.EXECUTED;
         }
     }
@@ -140,6 +159,10 @@ public class Controller {
             if (message.getClass() != Message.RightMessage.class)
             {
                 return ValveResponse.MISS;
+            }
+            if(checkBound(1,0))
+            {
+                translateTetromino(1, 0);
             }
             return ValveResponse.EXECUTED;
         }
