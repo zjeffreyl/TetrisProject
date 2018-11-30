@@ -97,9 +97,15 @@ public class Model
 					{
 						inBounds = true;
 					} else
-						inBounds = false;
+						{
+							inBounds = false;
+							break;
+						}
 				} else
-					inBounds = false;
+					{
+						inBounds = false;
+						break;
+					}
 
 //				coords[m].setX(coords[m].getX() + xChange);
 //				coords[m].setY(coords[m].getY() + yChange);

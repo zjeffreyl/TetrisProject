@@ -30,7 +30,6 @@ public class Tetris
         view = new View();
         model = new Model();
         game = new Controller(view, model);
-        view.getMainGameView().getGameGrid().getSquares()[4][4].changeOccupied(true, Color.ORANGE);
         game.spawnTetromino();
         Timer timer = new Timer();
         timer.schedule(new DropTimer(),1000, 1000);
