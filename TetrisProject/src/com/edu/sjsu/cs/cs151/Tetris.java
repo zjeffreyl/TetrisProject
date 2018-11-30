@@ -6,6 +6,7 @@ import com.edu.sjsu.cs.cs151.Models.Model;
 import com.edu.sjsu.cs.cs151.Views.Message;
 import com.edu.sjsu.cs.cs151.Views.View;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Timer;
@@ -29,6 +30,8 @@ public class Tetris
         view = new View();
         model = new Model();
         game = new Controller(view, model);
+        view.getMainGameView().getGameGrid().getSquares()[4][4].changeOccupied(true, Color.ORANGE);
+        game.spawnTetromino();
         Timer timer = new Timer();
         timer.schedule(new DropTimer(),1000, 1000);
 

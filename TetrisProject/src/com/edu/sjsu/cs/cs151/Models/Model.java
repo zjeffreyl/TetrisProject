@@ -24,6 +24,7 @@ public class Model
         {
             this.x = x;
             this.y = y;
+
         }
 
         public int getX() {
@@ -59,7 +60,16 @@ public class Model
 			coords = new Coordinate[]{this.a, this.b, this.c, this.d};
             this.color = color;
 		}
-		
+
+		public boolean contains(int x, int y) {
+			for(Coordinate coord: coords) {
+				if(coord.getX() == x && coord.getY() == y) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		/**
 		 * Rotates specified block 90 degrees clockwise
 		 */

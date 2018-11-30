@@ -73,15 +73,26 @@ public class Controller {
     {
         for(Model.Coordinate coordinate: currentTetromino.getCoordinates())
         {
-            int totalXMovement = coordinate.getX() + xMovement;
-            int totalYMovement = coordinate.getY() + yMovement;
-            if(totalXMovement > 9 || totalXMovement < 0 || totalYMovement > 19)
+            int predictedX = coordinate.getX() + xMovement;
+            int predictedY = coordinate.getY() + yMovement;
+            if(predictedX > 9 || predictedX < 0 || predictedY > 19 || hasCollision(predictedX, predictedY, coordinate))
             {
+                System.out.println("stop moving");
                 return false;
             }
 
         }
+        System.out.println("keep moving");
         return true;
+    }
+
+    public boolean hasCollision(int predictedX, int predictedY, Model.Coordinate currentCoord) {
+        if (gameGrid.getSquares()[predictedY][predictedX].isOccupied()) {
+            if(!currentTetromino.contains(predictedX, predictedY)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void translateTetromino(int addX, int addY)

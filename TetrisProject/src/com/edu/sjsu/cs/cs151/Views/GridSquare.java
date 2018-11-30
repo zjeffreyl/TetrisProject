@@ -34,6 +34,11 @@ public class GridSquare extends JComponent {
         revalidate();
     }
 
+    public boolean isOccupied()
+    {
+        return occupied;
+    }
+
     public int getDimension()
     {
         return rectangle.width;
