@@ -65,6 +65,10 @@ public class Model
 		 */
 		public void rotate()
 		{
+			boolean inBounds = true;
+			int[] xChange = new int[4];
+			int[] yChange = new int[4];
+
 			for (int m = 0; m < 4; m++)
 			{
 				int xResult = coords[m].x - coords[1].x;
@@ -73,23 +77,33 @@ public class Model
 				int yNew = 0 * yResult + (-1) * xResult;
 				int xNew = 1 * yResult + 0 * xResult;
 
-				int xChange = xNew - xResult;
-				int yChange = yNew - yResult;
+				xChange[m] = xNew - xResult;
+				yChange[m] = yNew - yResult;
 
-				if (coords[m].x + xChange >= 0 && coords[m].x + xChange <= 9)
+
+				if (coords[m].x + xChange[m] >= 0 && coords[m].x + xChange[m] <= 9)
 				{
-					if (coords[m].y + yChange >= 0 && coords[m].y + yChange <= 19)
+					if (coords[m].y + yChange[m] >= 0 && coords[m].y + yChange[m] <= 19)
 					{
-						coords[m].x += xChange;
-						coords[m].y += yChange;
+						inBounds = true;
 					} else
-						break;
-				}
+						inBounds = false;
+				} else
+					inBounds = false;
 
 //				coords[m].setX(coords[m].getX() + xChange);
 //				coords[m].setY(coords[m].getY() + yChange);
 
 				//int xResult = inputBlock.getCoordinates()[x].getX() - inputBlock.getCoordinates()[1].getX();
+			}
+
+			if (inBounds)
+			{
+				for (int m = 0; m < 4; m++)
+				{
+					coords[m].x += xChange[m];
+					coords[m].y += yChange[m];
+				}
 			}
 		}
 
