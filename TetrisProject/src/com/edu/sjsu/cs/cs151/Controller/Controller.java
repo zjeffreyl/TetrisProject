@@ -95,14 +95,22 @@ public class Controller {
         return false;
     }
 
-    public void translateTetromino(int addX, int addY)
+    public void fastDrop(){
+        while(translateTetromino(0,1)) {
+
+        }
+    }
+
+    public boolean translateTetromino(int addX, int addY)
     {
         if(checkBound(addX, addY))
         {
             paintTetromino(false);
             currentTetromino.moveTetromino(addX, addY);
             paintTetromino(true);
+            return true;
         }
+        return false;
     }
 
     public Model.Tetromino getCurrentTetromino()
@@ -137,6 +145,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
+            fastDrop();
             return ValveResponse.EXECUTED;
         }
     }
