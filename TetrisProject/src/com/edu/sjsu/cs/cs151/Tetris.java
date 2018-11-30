@@ -22,6 +22,7 @@ public class Tetris
     public static class DropTimer extends TimerTask {
         @Override
         public void run() {
+
             game.translateTetromino(0,1);
         }
     }

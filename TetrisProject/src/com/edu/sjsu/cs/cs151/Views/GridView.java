@@ -39,6 +39,14 @@ public class GridView extends JPanel
         setBackground(Color.darkGray);
     }
 
+    public void setRowUnoccupied(int row)
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            squares[row][i].changeOccupied(false,null);
+        }
+    }
+
     public void createBorder(int xBorder, int yBorder)
     {
         setBorder(new EmptyBorder(yBorder, xBorder, yBorder, xBorder));

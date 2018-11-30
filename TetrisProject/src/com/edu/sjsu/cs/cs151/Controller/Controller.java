@@ -23,6 +23,8 @@ public class Controller {
 
     private Model.Tetromino currentTetromino;
 
+    public int roundsPassed = 0;
+
     public Controller(View view, Model model)
     {
         this.view = view;
@@ -69,7 +71,7 @@ public class Controller {
         }
     }
 
-    public boolean checkBound(int xMovement, int yMovement)
+    public synchronized boolean checkBound(int xMovement, int yMovement)
     {
         for(Model.Coordinate coordinate: currentTetromino.getCoordinates())
         {
@@ -77,14 +79,18 @@ public class Controller {
             int predictedY = coordinate.getY() + yMovement;
             if(predictedX > 9 || predictedX < 0 || predictedY > 19 || hasCollision(predictedX, predictedY, coordinate))
             {
-                System.out.println("stop moving");
+                System.out.println("Some collision");
+                /*if(predictedY >= 19 || (hasCollision(predictedX, predictedY, coordinate) && predictedX == 0)){
+                    System.out.println("Round: " + (roundsPassed ++));
+                    newRound();
+                }*/
                 return false;
             }
 
         }
-        System.out.println("keep moving");
         return true;
     }
+
 
     public boolean hasCollision(int predictedX, int predictedY, Model.Coordinate currentCoord) {
         if (gameGrid.getSquares()[predictedY][predictedX].isOccupied()) {
@@ -93,6 +99,45 @@ public class Controller {
             }
         }
         return false;
+    }
+
+    public boolean checkClearRow(int checkRowAt)
+    {
+        int counter = 0;
+        // Optimized check row
+        if(gameGrid.getSquares()[checkRowAt][0].isOccupied()) {
+            for(int i = 0; i < 10; i++) {
+                if(gameGrid.getSquares()[checkRowAt][i].isOccupied())
+                {
+                    counter++;
+                }
+            }
+            if (counter == 10)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void clearRow()
+    {
+        int clears = 0;
+        int i = 19;
+        //optimize by limit row parse
+        while(i >= 0 && clears <= 4) {
+            if (checkClearRow(i)) {
+                clears++;
+                gameGrid.setRowUnoccupied(i);
+            }
+            i--;
+        }
+
+    }
+
+    public void shiftLines()
+    {
+
     }
 
     public void fastDrop(){
@@ -118,6 +163,12 @@ public class Controller {
         return currentTetromino;
     }
 
+    public synchronized void newRound()
+    {
+        roundsPassed++;
+        spawnTetromino();
+    }
+
     private class DoNewGameValve implements Valve
     {
 
@@ -128,7 +179,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-
+            roundsPassed = 0;
             spawnTetromino();
             return ValveResponse.EXECUTED;
         }
