@@ -40,7 +40,7 @@ public class Controller {
 
     public void spawnTetromino()
     {
-        currentTetromino = nextTetrominoGenerator.generateRandom();
+        setCurrentTetromino(nextTetrominoGenerator.generateRandom());
         translateTetromino(4, 0);
         paintTetromino(true);
     }
@@ -111,7 +111,6 @@ public class Controller {
             }
 
             spawnTetromino();
-
             return ValveResponse.EXECUTED;
         }
 
@@ -156,9 +155,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            if(checkBound(-1,0)) {
-                translateTetromino(-1, 0);
-            }
+            translateTetromino(-1, 0);
             return ValveResponse.EXECUTED;
         }
     }
@@ -173,10 +170,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            if(checkBound(1,0))
-            {
-                translateTetromino(1, 0);
-            }
+            translateTetromino(1, 0);
             return ValveResponse.EXECUTED;
         }
     }
