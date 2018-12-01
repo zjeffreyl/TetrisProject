@@ -24,6 +24,7 @@ public class Controller {
     private Model.Tetromino currentTetromino;
 
     public int roundsPassed = 0;
+    public boolean needToStartNewRound = false;
 
     public Controller(View view, Model model)
     {
@@ -77,15 +78,15 @@ public class Controller {
         {
             int predictedX = coordinate.getX() + xMovement;
             int predictedY = coordinate.getY() + yMovement;
-            if(predictedX > 9 || predictedX < 0 || predictedY > 19 || hasCollision(predictedX, predictedY, coordinate))
-            {
-                System.out.println("Some collision");
-                /*if(predictedY >= 19 || (hasCollision(predictedX, predictedY, coordinate) && predictedX == 0)){
-                    System.out.println("Round: " + (roundsPassed ++));
-                    newRound();
-                }*/
+            if (predictedX > 9 || predictedX < 0 || hasCollision(predictedX, predictedY, coordinate)) {
+                if(predictedY > 19 || (hasCollision(predictedX, predictedY, coordinate) && xMovement == 0 && yMovement > 0))
+                {
+                    System.out.println("Need to start New Round");
+                    return false;
+                }
                 return false;
             }
+
 
         }
         return true;
@@ -167,6 +168,7 @@ public class Controller {
     {
         roundsPassed++;
         spawnTetromino();
+        needToStartNewRound = false;
     }
 
     private class DoNewGameValve implements Valve

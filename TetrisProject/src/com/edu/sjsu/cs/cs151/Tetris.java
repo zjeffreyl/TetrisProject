@@ -23,6 +23,10 @@ public class Tetris
         @Override
         public void run() {
 
+            /*if(!game.translateTetromino(0,1) && game.needToStartNewRound)
+            {
+                game.newRound();
+            }*/
             game.translateTetromino(0,1);
         }
     }
