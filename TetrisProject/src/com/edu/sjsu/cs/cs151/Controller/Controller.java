@@ -108,11 +108,13 @@ public class Controller {
 
 
     public boolean hasCollision(int predictedX, int predictedY) {
-        if (gameGrid.getSquares()[predictedY][predictedX].isOccupied()) {
-            if (!currentTetromino.contains(predictedX, predictedY)) {
+        if (predictedX >= 0 && predictedX <= 9 && predictedY >= 0 && predictedY <= 19) {
+            if (gameGrid.getSquares()[predictedY][predictedX].isOccupied()) {
+                if (!currentTetromino.contains(predictedX, predictedY)) {
                     return true;
                 }
             }
+        }
         return false;
     }
 
@@ -141,18 +143,26 @@ public class Controller {
         int i = 19;
         //optimize by limit row parse
         while(i >= 0 && clears <= 4) {
-            if (checkClearRow(i)) {
+            while (checkClearRow(i)) {
                 clears++;
-                gameGrid.setRowUnoccupied(i);
+                shiftLines(i);
+                //gameGrid.setRowUnoccupied(i);
             }
             i--;
         }
 
     }
 
-    public void shiftLines()
+    public void shiftLines(int row)
     {
-
+        while (row > 0)
+        {
+            for (int x = 0; x <= 9; x++) {
+                gameGrid.getSquares()[row][x].changeOccupied(gameGrid.getSquares()[row-1][x].isOccupied(),
+                        gameGrid.getSquares()[row-1][x].color);
+            }
+            row--;
+        }
     }
 
     public void fastDrop(){
@@ -181,6 +191,7 @@ public class Controller {
     public synchronized void newRound()
     {
         roundsPassed++;
+        clearRow();
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
         translateTetromino(4, 0);
         paintTetromino(true);

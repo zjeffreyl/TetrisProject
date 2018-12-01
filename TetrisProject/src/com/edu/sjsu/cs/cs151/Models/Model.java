@@ -154,21 +154,39 @@ public class Model
 
 	public class NextTetrominoGenerator
     {
-        private Tetromino o = new Tetromino(new Coordinate(0,0), new Coordinate(1,0), new Coordinate(0,1), new Coordinate(1,1), Color.yellow);
-        private Tetromino i = new Tetromino(new Coordinate(0,0), new Coordinate(1,0), new Coordinate(2,0), new Coordinate(3,0), Color.cyan);
-        private Tetromino j = new Tetromino(new Coordinate(0,0), new Coordinate(1,0), new Coordinate(1,1), new Coordinate(2,1), Color.blue);
-        private Tetromino l = new Tetromino(new Coordinate(0,1), new Coordinate(1,1), new Coordinate(2,1), new Coordinate(2,0), Color.orange);
-        private Tetromino s = new Tetromino(new Coordinate(0,1), new Coordinate(1,1), new Coordinate(1,0), new Coordinate(2,0), Color.green);
-        private Tetromino z = new Tetromino(new Coordinate(0,0), new Coordinate(1,0), new Coordinate(1,1), new Coordinate(2,1), Color.red);
-        private Tetromino t = new Tetromino(new Coordinate(0,1), new Coordinate(1,0), new Coordinate(1,1), new Coordinate(2,1), Color.magenta);
+        private Tetromino generate(String letter) {
+			if (letter.equals("o")) {
+				return new Tetromino(new Coordinate(0, 0),
+						new Coordinate(1, 0), new Coordinate(0, 1), new Coordinate(1, 1), Color.yellow);
+			} else if (letter.equals("i")) {
+				return new Tetromino(new Coordinate(0, 0), new Coordinate(1, 0),
+						new Coordinate(2, 0), new Coordinate(3, 0), Color.cyan);
+			} else if (letter.equals("j")) {
+				return new Tetromino(new Coordinate(0, 0), new Coordinate(1, 0),
+						new Coordinate(1, 1), new Coordinate(2, 1), Color.blue);
+			} else if (letter.equals("l")) {
+				return new Tetromino(new Coordinate(0, 1), new Coordinate(1, 1),
+						new Coordinate(2, 1), new Coordinate(2, 0), Color.orange);
+			} else if (letter.equals("s")) {
+				return new Tetromino(new Coordinate(0, 1), new Coordinate(1, 1),
+						new Coordinate(1, 0), new Coordinate(2, 0), Color.green);
+			} else if (letter.equals("z")) {
+				return new Tetromino(new Coordinate(0, 0), new Coordinate(1, 0),
+						new Coordinate(1, 1), new Coordinate(2, 1), Color.red);
+			} else if (letter.equals("k")) {
+				return new Tetromino(new Coordinate(0, 1), new Coordinate(1, 0),
+						new Coordinate(1, 1), new Coordinate(2, 1), Color.magenta);
+			} else
+				return null;
+		}
 
-        public Tetromino[] nextTetromino = {o,i,j,l,s,z,t};
+        String[] nextTetromino = {"o", "i", "j", "l", "s", "z", "k"};
 
         public Tetromino generateRandom()
         {
             Random Dice = new Random();
             int n = Dice.nextInt(7);
-            return nextTetromino[n];
+            return generate(nextTetromino[n]);
         }
     }
 
