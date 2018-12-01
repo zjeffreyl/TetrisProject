@@ -35,7 +35,9 @@ public class Tetris
         view = new View();
         model = new Model();
         game = new Controller(view, model);
+        //game.setCurrentTetromino(game.nextTetrominoGenerator.generateRandom());
         game.spawnTetromino();
+        //Timer thread running
         Timer timer = new Timer();
         timer.schedule(new DropTimer(),1000, 1000);
 
