@@ -25,6 +25,9 @@ public class Controller {
 
     public int roundsPassed = 0;
     public boolean needToStartNewRound = false;
+    public boolean tetrominoDead = false;
+    public boolean stopPoll = false;
+
 
     public Controller(View view, Model model)
     {
@@ -78,27 +81,38 @@ public class Controller {
         {
             int predictedX = coordinate.getX() + xMovement;
             int predictedY = coordinate.getY() + yMovement;
-            if (predictedX > 9 || predictedX < 0 || hasCollision(predictedX, predictedY, coordinate)) {
-                if(predictedY > 19 || (hasCollision(predictedX, predictedY, coordinate) && xMovement == 0 && yMovement > 0))
+            //STOP the movement direction conditions
+            //1 next move for any of the blocks move past x perimeter
+            //2 next move for any of the blocks move past y bottom
+            //3 next move for any blocks contain an occupied block
+            if (predictedX > 9 || predictedX < 0 || predictedY > 19 || hasCollision(predictedX, predictedY)) {
+                //Condition for the block to move no further via stop falling
+                //1 next move for any of the blocks move past y bottom
+                //2 next move has a collision with occupied when the move is vertical
+                if(predictedY > 19 || (hasCollision(predictedX, predictedY) && yMovement > 0))
                 {
-                    System.out.println("Need to start New Round");
+                    //We will need to stop any further controls until next second
+                    stopPoll = true;
+                    //End the reference to this tetromino
+                    tetrominoDead = true;
+                    //start polling again
+                    stopPoll = false;
                     return false;
                 }
+                tetrominoDead = false;
                 return false;
             }
-
-
         }
         return true;
     }
 
 
-    public boolean hasCollision(int predictedX, int predictedY, Model.Coordinate currentCoord) {
+    public boolean hasCollision(int predictedX, int predictedY) {
         if (gameGrid.getSquares()[predictedY][predictedX].isOccupied()) {
-            if(!currentTetromino.contains(predictedX, predictedY)) {
-                return true;
+            if (!currentTetromino.contains(predictedX, predictedY)) {
+                    return true;
+                }
             }
-        }
         return false;
     }
 
@@ -167,8 +181,10 @@ public class Controller {
     public synchronized void newRound()
     {
         roundsPassed++;
-        spawnTetromino();
-        needToStartNewRound = false;
+        setCurrentTetromino(nextTetrominoGenerator.generateRandom());
+        translateTetromino(4, 0);
+        paintTetromino(true);
+        tetrominoDead = false;
     }
 
     private class DoNewGameValve implements Valve
@@ -182,7 +198,7 @@ public class Controller {
                 return ValveResponse.MISS;
             }
             roundsPassed = 0;
-            spawnTetromino();
+            newRound();
             return ValveResponse.EXECUTED;
         }
 
@@ -271,7 +287,7 @@ public class Controller {
         Message message = null;
         while(response != ValveResponse.FINISH) {
             Thread.yield();
-            if (!Tetris.queue.isEmpty()) {
+            if (!Tetris.queue.isEmpty() && !stopPoll) {
                 message = Tetris.queue.poll();
 
                 for (Valve valve : valves) {

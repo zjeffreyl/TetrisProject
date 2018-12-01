@@ -142,6 +142,11 @@ public class Model
 			}
 		}
 
+		@Override
+		public String toString() {
+			return this.getColor().toString();
+		}
+
 		public Color getColor() {
 			return color;
 		}

@@ -18,16 +18,21 @@ public class Tetris
     private static View view;
     private static Model model;
     private static Controller game;
+    public static Timer timer;
 
     public static class DropTimer extends TimerTask {
         @Override
         public void run() {
 
-            /*if(!game.translateTetromino(0,1) && game.needToStartNewRound)
+            if(game.tetrominoDead)
             {
+                System.out.println("Starting new round");
                 game.newRound();
-            }*/
-            game.translateTetromino(0,1);
+            }
+            else{
+                System.out.println("Translating");
+                game.translateTetromino(0, 1);
+            }
         }
     }
 
@@ -38,7 +43,7 @@ public class Tetris
         //game.setCurrentTetromino(game.nextTetrominoGenerator.generateRandom());
         game.spawnTetromino();
         //Timer thread running
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new DropTimer(),1000, 1000);
 
         game.mainLoop();
