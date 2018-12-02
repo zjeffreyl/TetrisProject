@@ -26,11 +26,9 @@ public class Tetris
 
             if(game.tetrominoDead)
             {
-                System.out.println("Starting new round");
                 game.newRound();
             }
             else{
-                System.out.println("Translating");
                 game.translateTetromino(0, 1);
             }
         }
@@ -45,7 +43,7 @@ public class Tetris
         //Timer thread running
         timer = new Timer();
         timer.schedule(new DropTimer(),1000, 1000);
-
         game.mainLoop();
+        queue.clear();
     }
 }

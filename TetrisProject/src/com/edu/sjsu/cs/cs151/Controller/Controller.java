@@ -27,6 +27,7 @@ public class Controller {
     public boolean needToStartNewRound = false;
     public boolean tetrominoDead = false;
     public boolean stopPoll = false;
+    ValveResponse response;
 
 
     public Controller(View view, Model model)
@@ -47,7 +48,13 @@ public class Controller {
     public void spawnTetromino()
     {
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
-        translateTetromino(4, 0);
+        if(!translateTetromino(4, 0))
+        {
+            System.out.println("Game Over");
+            Tetris.timer.cancel();
+            response = ValveResponse.FINISH;
+            return;
+        }
         paintTetromino(true);
     }
 
@@ -192,9 +199,7 @@ public class Controller {
     {
         roundsPassed++;
         clearRow();
-        setCurrentTetromino(nextTetrominoGenerator.generateRandom());
-        translateTetromino(4, 0);
-        paintTetromino(true);
+        spawnTetromino();
         tetrominoDead = false;
     }
 
@@ -294,7 +299,7 @@ public class Controller {
 
     public void mainLoop() throws Exception
     {
-        ValveResponse response = ValveResponse.EXECUTED;
+        response = ValveResponse.EXECUTED;
         Message message = null;
         while(response != ValveResponse.FINISH) {
             Thread.yield();
