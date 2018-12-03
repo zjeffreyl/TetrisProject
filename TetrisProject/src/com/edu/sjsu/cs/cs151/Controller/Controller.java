@@ -55,11 +55,11 @@ public class Controller {
     public void spawnTetromino()
     {
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
-        if(!translateTetromino(4, 0))
+        if(!translateTetromino(4, 0, true))
         {
             System.out.println("Game Over");
             Tetris.timer.cancel();
-            response = ValveResponse.FINISH;
+
             return;
         }
         paintTetromino(true);
