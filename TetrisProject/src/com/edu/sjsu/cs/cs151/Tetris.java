@@ -12,6 +12,9 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Main class that contains main method and starts game
+ */
 public class Tetris
 {
     public static Queue<Message> queue = new LinkedList<Message>(){};
@@ -20,6 +23,9 @@ public class Tetris
     private static Controller game;
     public static Timer timer;
 
+    /**
+     * Timer thread that drops tetromino object one unit every second
+     */
     public static class DropTimer extends TimerTask {
         @Override
         public void run() {
@@ -36,6 +42,11 @@ public class Tetris
         }
     }
 
+    /**
+     * Main method starts game
+     * @param args command line arguments
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         view = new View();
         model = new Model();
@@ -44,7 +55,7 @@ public class Tetris
         game.spawnTetromino();
         //Timer thread running
         timer = new Timer();
-        timer.schedule(new DropTimer(),1000, 1000);
+        timer.schedule(new DropTimer(),3000, 1000);
 
         game.mainLoop();
     }

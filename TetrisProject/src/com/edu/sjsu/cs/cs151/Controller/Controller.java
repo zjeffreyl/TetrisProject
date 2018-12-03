@@ -41,7 +41,6 @@ public class Controller {
         mainGameView = view.getMainGameView();
         gameGrid = mainGameView.getGameGrid();
 
-
     }
 
     public void spawnTetromino()
