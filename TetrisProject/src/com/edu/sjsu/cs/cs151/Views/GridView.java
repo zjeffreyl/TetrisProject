@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Display of the Grid
+ */
 public class GridView extends JPanel
 {
     int height;
@@ -17,6 +20,11 @@ public class GridView extends JPanel
     public final int BORDEROFFSET = 5;
     public final Color DEFAULTCOLOR = Color.darkGray;
 
+    /**
+     * Constructs a panel that displays grid
+     * @param cols  number of columns
+     * @param rows  number of rows
+     */
     public GridView(int cols, int rows)
     {
         this.rows = rows;
@@ -39,6 +47,10 @@ public class GridView extends JPanel
         setBackground(Color.darkGray);
     }
 
+    /**
+     * Change the rows to unoccupied (makes it empty)
+     * @param row
+     */
     public void setRowUnoccupied(int row)
     {
         for(int i = 0; i < 10; i++)
@@ -47,11 +59,20 @@ public class GridView extends JPanel
         }
     }
 
+    /**
+     * Creates a border around the grid
+     * @param xBorder  width of the border
+     * @param yBorder  height of the border
+     */
     public void createBorder(int xBorder, int yBorder)
     {
         setBorder(new EmptyBorder(yBorder, xBorder, yBorder, xBorder));
     }
 
+    /**
+     * Get the squares in the grid
+     * @return squares
+     */
     public GridSquare[][] getSquares()
     {
         return squares;

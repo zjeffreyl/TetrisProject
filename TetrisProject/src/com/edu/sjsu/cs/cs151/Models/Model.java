@@ -10,35 +10,57 @@ import java.util.Random;
 public class Model
 {
 
-	public class Grid
-	{
-		
-	}
-
+	/**
+	 * A class that stores the coordinates of the grid
+	 */
 	public class Coordinate
     {
         private int x;
         private int y;
 
-        public Coordinate(int x, int y)
+		/**
+		 * Constructs the coordinate
+		 * @param x  x coordinate (col)
+		 * @param y  y coordinate (row)
+		 */
+		public Coordinate(int x, int y)
         {
             this.x = x;
             this.y = y;
 
         }
 
-        public int getX() {
+		/**
+		 * Get X coordinate
+		 * @return x  column
+		 */
+		public int getX() {
             return x;
         }
 
-        public int getY() { return y; }
+		/**
+		 * Get the Y coordinate
+		 * @return y  row
+		 */
+		public int getY() { return y; }
 
+		/**
+		 * Set the X coordinate
+		 * @param x column
+		 */
         public void setX(int x) { this.x = x; }
 
+		/**
+		 * Set the Y coordinate
+		 * @param y  row
+		 */
 		public void setY(int y) { this.y = y; }
 
 	}
 
+	/**
+	 * A class that stores the Tetromino (block)
+	 */
 	public class Tetromino
 	{
 	    Coordinate a;
@@ -49,7 +71,12 @@ public class Model
 	    Color color;
 
 		/**
-		 * Constructs Block object with specified coordinates
+		 * Constructs Tetromino object with four specified coordinates
+		 * @param a  first square coordinate
+		 * @param b  second square coordinate
+		 * @param c  third square coordinate
+		 * @param d  fourth square coordinate
+		 * @param color  the tetromino color
 		 */
 		public Tetromino(Coordinate a, Coordinate b, Coordinate c, Coordinate d, Color color)
 		{
@@ -61,6 +88,12 @@ public class Model
             this.color = color;
 		}
 
+		/**
+		 * Checks if a specific coordinate is contained in the tetromino
+		 * @param x  coordinate x
+		 * @param y  coordinate y
+		 * @return  boolean  whether it is contained or not
+		 */
 		public boolean contains(int x, int y) {
 			for(Coordinate coord: coords) {
 				if(coord.getX() == x && coord.getY() == y) {
@@ -123,6 +156,10 @@ public class Model
 			}
 		}
 
+		/**
+		 * An array of coordinates
+		 * @return coords  the array of coordinates
+		 */
 		public Coordinate[] getCoordinates()
         {
             return coords;
@@ -142,18 +179,34 @@ public class Model
 			}
 		}
 
+		/**
+		 * Change the color to a string
+		 * @return the string
+		 */
 		@Override
 		public String toString() {
 			return this.getColor().toString();
 		}
 
+		/**
+		 * Get the color
+		 * @return color
+		 */
 		public Color getColor() {
 			return color;
 		}
 	}
 
+	/**
+	 * A class that generates the next tetromino
+	 */
 	public class NextTetrominoGenerator
     {
+		/**
+		 * Generate the tetromino
+		 * @param letter  the tetromino to be generated
+		 * @return  Tetromino
+		 */
         private Tetromino generate(String letter) {
 			if (letter.equals("o")) {
 				return new Tetromino(new Coordinate(0, 0),
@@ -182,7 +235,11 @@ public class Model
 
         String[] nextTetromino = {"o", "i", "j", "l", "s", "z", "k"};
 
-        public Tetromino generateRandom()
+		/**
+		 * Spawn a random tetromino
+		 * @return Tetromino
+		 */
+		public Tetromino generateRandom()
         {
             Random Dice = new Random();
             int n = Dice.nextInt(7);

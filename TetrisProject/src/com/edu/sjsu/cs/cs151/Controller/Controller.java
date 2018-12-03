@@ -29,6 +29,11 @@ public class Controller {
     public boolean stopPoll = false;
 
 
+    /**
+     * Ctor for controller
+     * @param view
+     * @param model
+     */
     public Controller(View view, Model model)
     {
         this.view = view;
@@ -44,6 +49,9 @@ public class Controller {
 
     }
 
+    /**
+     * Spawns a tetromino
+     */
     public void spawnTetromino()
     {
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
@@ -51,12 +59,19 @@ public class Controller {
         paintTetromino(true);
     }
 
+    /**
+     * Sets the current tetromino
+     * @param newTetromino  the tetromino to be set
+     */
     public void setCurrentTetromino(Model.Tetromino newTetromino)
     {
         currentTetromino = newTetromino;
     }
 
-    //Paint or delete tetromino(based on its values)
+    /**
+     * Paint or delete tetromino (based on its values)
+     * @param paint  removes or paints the tetromino based on true or false
+     */
     public void paintTetromino(boolean paint)
     {
         for(Model.Coordinate coord: currentTetromino.getCoordinates())
@@ -64,6 +79,10 @@ public class Controller {
             gameGrid.getSquares()[coord.getY()][coord.getX()].changeOccupied(paint, currentTetromino.getColor());
         }
     }
+
+    /**
+     * Rotate the tetromino
+     */
 
     public void doRotate()
     {
@@ -75,6 +94,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Checks the bound based on x & y movement
+     * @param xMovement  the amount of x to be added to col
+     * @param yMovement  the amount of y to be added to row
+     * @return boolean   whether or not the bound was touched
+     */
     public synchronized boolean checkBound(int xMovement, int yMovement)
     {
         for(Model.Coordinate coordinate: currentTetromino.getCoordinates())
@@ -106,6 +131,12 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Checks if there is a collision
+     * @param predictedX  the possible new X coordinate
+     * @param predictedY  the possible new Y coordinate
+     * @return boolean    whether or not a collision occurred
+     */
 
     public boolean hasCollision(int predictedX, int predictedY) {
         if (predictedX >= 0 && predictedX <= 9 && predictedY >= 0 && predictedY <= 19) {
@@ -118,6 +149,12 @@ public class Controller {
         return false;
     }
 
+
+    /**
+     * Checks if a row can be cleared
+     * @param checkRowAt  the row of the array
+     * @return  boolean   whether or not the all the columns of the row is occupied
+     */
     public boolean checkClearRow(int checkRowAt)
     {
         int counter = 0;
@@ -137,6 +174,9 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Clear the row if all the columns are occupied
+     */
     public void clearRow()
     {
         int clears = 0;
@@ -153,6 +193,10 @@ public class Controller {
 
     }
 
+    /**
+     * Shift the lines once a row has been cleared
+     * @param row  the row that was cleared
+     */
     public void shiftLines(int row)
     {
         while (row > 0)
@@ -165,12 +209,21 @@ public class Controller {
         }
     }
 
+    /**
+     * Fast drop when 'space' pressed
+     */
     public void fastDrop(){
         while(translateTetromino(0,1)) {
 
         }
     }
 
+    /**
+     * Translate the tetromino left, right, down
+     * @param addX  the amount of left/right shift
+     * @param addY  the amount of down shift
+     * @return boolean  whether or not the amount can be shifted
+     */
     public boolean translateTetromino(int addX, int addY)
     {
         if(checkBound(addX, addY))
@@ -183,11 +236,18 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Get the current tetromino
+     * @return currentTetromino  the current tetromino
+     */
     public Model.Tetromino getCurrentTetromino()
     {
         return currentTetromino;
     }
 
+    /**
+     * Creates a new round
+     */
     public synchronized void newRound()
     {
         roundsPassed++;
@@ -198,9 +258,17 @@ public class Controller {
         tetrominoDead = false;
     }
 
+    /**
+     * A class for New Game Valve
+     */
     private class DoNewGameValve implements Valve
     {
 
+        /**
+         * Execute the message of creating new game using valve
+         * @param message  the message
+         * @return  ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -215,9 +283,17 @@ public class Controller {
 
     }
 
+    /**
+     * A class for Hard Drop Valve
+     */
     private class DoHardDropValve implements Valve
     {
 
+        /**
+         * Execute the message of hard drop using valve
+         * @param message  the message
+         * @return  ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -230,9 +306,17 @@ public class Controller {
         }
     }
 
+    /**
+     * a class for Soft Drop Valve
+     */
     private class DoSoftDropValve implements Valve
     {
 
+        /**
+         * Execute the message of soft drop using valve
+         * @param message  the message
+         * @return  ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -245,9 +329,16 @@ public class Controller {
         }
     }
 
+    /**
+     * a class for shift Left Valve
+     */
     private class DoLeftValve implements Valve
     {
-
+        /**
+         * Execute the message of shift Left using valve
+         * @param message  the message
+         * @return ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -260,9 +351,16 @@ public class Controller {
         }
     }
 
+    /**
+     * a class for shift Right Valve
+     */
     private class DoRightValve implements Valve
     {
-
+        /**
+         * Execute the message of shift Right using valve
+         * @param message  the message
+         * @return ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -275,9 +373,17 @@ public class Controller {
         }
     }
 
+    /**
+     * a class for Rotate valve
+     */
     private class DoRotateValve implements Valve
     {
 
+        /**
+         * Execute the message of Rotate using valve
+         * @param message  the message
+         * @return  ValveResponse  the valve response
+         */
         @Override
         public ValveResponse execute(Message message)
         {
@@ -292,6 +398,10 @@ public class Controller {
         }
     }
 
+    /**
+     * The mainLoop that calls the valve responses
+     * @throws Exception
+     */
     public void mainLoop() throws Exception
     {
         ValveResponse response = ValveResponse.EXECUTED;
