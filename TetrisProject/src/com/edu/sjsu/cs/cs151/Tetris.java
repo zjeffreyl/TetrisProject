@@ -31,7 +31,7 @@ public class Tetris
             }
             else{
                 System.out.println("Translating");
-                game.translateTetromino(0, 1);
+                game.translateTetromino(0, 1, true);
             }
         }
     }

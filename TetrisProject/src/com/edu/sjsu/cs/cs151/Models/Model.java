@@ -73,11 +73,13 @@ public class Model
 		/**
 		 * Rotates specified block 90 degrees clockwise
 		 */
-		public void rotate()
+		public int[] rotate()
 		{
 			boolean inBounds = true;
 			int[] xChange = new int[4];
 			int[] yChange = new int[4];
+			int[] result = new int[8];
+			int resultCounter = 0;
 
 			for (int m = 0; m < 4; m++)
 			{
@@ -119,8 +121,13 @@ public class Model
 				{
 					coords[m].x += xChange[m];
 					coords[m].y += yChange[m];
+					result[resultCounter] = coords[m].x;
+					result[resultCounter+1] = coords[m].y;
+					resultCounter += 2;
 				}
 			}
+
+			return result;
 		}
 
 		public Coordinate[] getCoordinates()
