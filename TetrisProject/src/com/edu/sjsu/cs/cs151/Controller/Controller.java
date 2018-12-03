@@ -46,7 +46,6 @@ public class Controller {
         mainGameView = view.getMainGameView();
         gameGrid = mainGameView.getGameGrid();
 
-
     }
 
     /**
@@ -55,7 +54,7 @@ public class Controller {
     public void spawnTetromino()
     {
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
-        translateTetromino(4, 0);
+        translateTetromino(4, 0, false);
         paintTetromino(true);
     }
 
@@ -88,9 +87,32 @@ public class Controller {
     {
         if (currentTetromino.getColor() != Color.YELLOW)
         {
+            int[] rotateResults;
+            boolean collision = false;
             paintTetromino(false);
+
+            // obtain newly rotated coordinates
+            rotateResults = currentTetromino.rotate();
+
+            // rotate Tetromino back to original state
             currentTetromino.rotate();
-            paintTetromino(true);
+            currentTetromino.rotate();
+            currentTetromino.rotate();
+
+            for(int x = 0; x < 8; x += 2)
+            {
+                if (hasCollision(rotateResults[x], rotateResults[x+1])) {
+                    collision = true;
+                    paintTetromino(true);
+                    break;
+                }
+            }
+
+            if (!collision)
+            {
+                currentTetromino.rotate();
+                paintTetromino(true);
+            }
         }
     }
 
@@ -100,7 +122,7 @@ public class Controller {
      * @param yMovement  the amount of y to be added to row
      * @return boolean   whether or not the bound was touched
      */
-    public synchronized boolean checkBound(int xMovement, int yMovement)
+    public synchronized boolean checkBound(int xMovement, int yMovement, boolean falling)
     {
         for(Model.Coordinate coordinate: currentTetromino.getCoordinates())
         {
@@ -114,7 +136,7 @@ public class Controller {
                 //Condition for the block to move no further via stop falling
                 //1 next move for any of the blocks move past y bottom
                 //2 next move has a collision with occupied when the move is vertical
-                if(predictedY > 19 || (hasCollision(predictedX, predictedY) && yMovement > 0))
+                if(predictedY > 19 || (hasCollision(predictedX, predictedY) && falling))
                 {
                     //We will need to stop any further controls until next second
                     stopPoll = true;
@@ -213,7 +235,7 @@ public class Controller {
      * Fast drop when 'space' pressed
      */
     public void fastDrop(){
-        while(translateTetromino(0,1)) {
+        while(translateTetromino(0,1, true)) {
 
         }
     }
@@ -224,9 +246,9 @@ public class Controller {
      * @param addY  the amount of down shift
      * @return boolean  whether or not the amount can be shifted
      */
-    public boolean translateTetromino(int addX, int addY)
+    public boolean translateTetromino(int addX, int addY, boolean falling)
     {
-        if(checkBound(addX, addY))
+        if(checkBound(addX, addY, falling))
         {
             paintTetromino(false);
             currentTetromino.moveTetromino(addX, addY);
@@ -253,7 +275,7 @@ public class Controller {
         roundsPassed++;
         clearRow();
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
-        translateTetromino(4, 0);
+        translateTetromino(4, 0, false);
         paintTetromino(true);
         tetrominoDead = false;
     }
@@ -324,7 +346,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            translateTetromino(0, 1);
+            translateTetromino(0, 1, true);
             return ValveResponse.EXECUTED;
         }
     }
@@ -346,7 +368,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            translateTetromino(-1, 0);
+            translateTetromino(-1, 0, false);
             return ValveResponse.EXECUTED;
         }
     }
@@ -368,7 +390,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            translateTetromino(1, 0);
+            translateTetromino(1, 0, false);
             return ValveResponse.EXECUTED;
         }
     }
