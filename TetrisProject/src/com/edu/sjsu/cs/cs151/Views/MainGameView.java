@@ -6,6 +6,9 @@ import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The main display for the game
+ */
 public class MainGameView extends JFrame {
 
     private HoldBlockView holdBlock;
@@ -13,6 +16,10 @@ public class MainGameView extends JFrame {
     private int dimension;
     private GridView gameGrid;
 
+    /**
+     * Constructs the main game view
+     * @param dimension
+     */
     public MainGameView(int dimension)
     {
         this.dimension = dimension;
@@ -25,6 +32,9 @@ public class MainGameView extends JFrame {
         setGamePanels();
     }
 
+    /**
+     * Set the game panels into the frame
+     */
     public void setGamePanels()
     {
         //layout Sizes
@@ -74,15 +84,27 @@ public class MainGameView extends JFrame {
         add(gameGrid, layout.CENTER);
     }
 
+    /**
+     * Get the game grid
+     * @return gameGrid
+     */
     public GridView getGameGrid() {
         return gameGrid;
     }
 
+    /**
+     * Get the next block
+     * @return nextBlock
+     */
     public HoldBlockView getNextBlock()
     {
         return nextBlock;
     }
 
+    /**
+     * Get the hold block
+     * @return holdBlock
+     */
     public HoldBlockView getHoldBlock()
     {
         return holdBlock;

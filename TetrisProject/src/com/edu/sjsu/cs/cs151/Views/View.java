@@ -4,9 +4,17 @@ import com.edu.sjsu.cs.cs151.Tetris;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * View is the class through which all user interface/action occurs. Sends input as messages to the queue for
+ * controller to process
+ */
 public class View {
 
     MainGameView mainGameView;
+
+    /**
+     * View constructor initializes game view and adds a key listener to the frame
+     */
     public View()
     {
         mainGameView = new MainGameView(700);
@@ -14,14 +22,24 @@ public class View {
         mainGameView.addKeyListener(keyListener);
     }
 
+    /**
+     * Returns main game view
+     * @return mainGameView
+     */
     public MainGameView getMainGameView() {
         return mainGameView;
     }
 
+    /**
+     * Listens for user key presses
+     */
     private class KeyListener implements java.awt.event.KeyListener {
 
         HoldBlockView nextBlockView;
 
+        /**
+         * Adds next block to the next block window
+         */
         public KeyListener()
         {
             nextBlockView = mainGameView.getNextBlock();
@@ -36,6 +54,10 @@ public class View {
         public void keyPressed(KeyEvent e) {
         }
 
+        /**
+         * Checks when user releases key, therefore only checks for single press and not hold of key
+         * @param e
+         */
         @Override
         public void keyReleased(KeyEvent e) {
             int key = e.getKeyCode();
@@ -43,7 +65,7 @@ public class View {
             if(key == KeyEvent.VK_SPACE)
             {
                 Tetris.queue.add(new Message.FastDropMessage());
-                //nextBlockView.inputTetromino();
+                //send message to fast drop
             }
             else if(key == KeyEvent.VK_LEFT)
             {
@@ -64,7 +86,7 @@ public class View {
                 Tetris.queue.add((Message) new Message.SlowDropMessage());
                 //Send message to fast drop
             }
-            else if(key == KeyEvent.VK_Q)
+            else if(key == KeyEvent.VK_N)
             {
                 Tetris.queue.add((Message) new Message.NewGameMessage());
             }
