@@ -90,6 +90,10 @@ public class View {
             {
                 Tetris.queue.add((Message) new Message.NewGameMessage());
             }
+            else if(key == KeyEvent.VK_Q)
+            {
+                Tetris.queue.add((Message) new Message.QuitMessage());
+            }
         }
     }
 

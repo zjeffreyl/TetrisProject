@@ -21,7 +21,6 @@ public class Tetris
     private static View view;
     private static Model model;
     private static Controller game;
-    public static Timer timer;
 
     /**
      * Timer thread that drops tetromino object one unit every second
@@ -50,12 +49,7 @@ public class Tetris
         view = new View();
         model = new Model();
         game = new Controller(view, model);
-        //game.setCurrentTetromino(game.nextTetrominoGenerator.generateRandom());
-        game.spawnTetromino();
-        //Timer thread running
-        timer = new Timer();
-        timer.schedule(new DropTimer(),3000, 1000);
-
+        game.gameOverCleanUp();
         game.mainLoop();
         queue.clear();
     }

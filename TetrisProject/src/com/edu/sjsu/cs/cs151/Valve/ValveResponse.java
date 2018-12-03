@@ -1,4 +1,4 @@
-package com.edu.sjsu.cs.cs151;
+package com.edu.sjsu.cs.cs151.Valve;
 
 /**
  * Possible valve responses

@@ -13,4 +13,5 @@ public class Message implements Serializable
     public static class RightMessage extends Message{}
     public static class SlowDropMessage extends Message{}
     public static class FastDropMessage extends Message{}
+    public static class QuitMessage extends  Message{}
 }

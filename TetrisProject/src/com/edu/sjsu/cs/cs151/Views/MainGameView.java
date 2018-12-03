@@ -15,6 +15,8 @@ public class MainGameView extends JFrame {
     private HoldBlockView nextBlock;
     private int dimension;
     private GridView gameGrid;
+    private NewGameView panel;
+    public static final int NEW_GAME_VIEW_DIMENSION = 450;
 
     /**
      * Constructs the main game view
@@ -101,12 +103,25 @@ public class MainGameView extends JFrame {
         return nextBlock;
     }
 
-    /**
-     * Get the hold block
-     * @return holdBlock
-     */
-    public HoldBlockView getHoldBlock()
+    public void removeNewGameView()
     {
-        return holdBlock;
+        getLayeredPane().remove(panel);
+        remove(panel);
+        revalidate();
+        repaint();
+    }
+
+    public void addNewGameView()
+    {
+        panel = new NewGameView();
+        panel.setSize(NEW_GAME_VIEW_DIMENSION,NEW_GAME_VIEW_DIMENSION);
+        panel.setLocation(125, 125);
+        getLayeredPane().add(panel, JLayeredPane.DEFAULT_LAYER);
+        add(panel);
+    }
+
+    public NewGameView getNewGameView()
+    {
+        return panel;
     }
 }

@@ -3,21 +3,20 @@ package com.edu.sjsu.cs.cs151.Controller;
 import com.edu.sjsu.cs.cs151.Views.Message;
 import com.edu.sjsu.cs.cs151.Models.Model;
 import com.edu.sjsu.cs.cs151.Tetris;
-import com.edu.sjsu.cs.cs151.Valve;
-import com.edu.sjsu.cs.cs151.ValveResponse;
+import com.edu.sjsu.cs.cs151.Valve.Valve;
+import com.edu.sjsu.cs.cs151.Valve.ValveResponse;
 import com.edu.sjsu.cs.cs151.Views.GridView;
-import com.edu.sjsu.cs.cs151.Views.HoldBlockView;
 import com.edu.sjsu.cs.cs151.Views.MainGameView;
 import com.edu.sjsu.cs.cs151.Views.View;
 
 import java.awt.*;
+import java.util.Timer;
 
 public class Controller {
     private View view;
     private Model model;
-    private HoldBlockView nextBlockView;
     private Valve[] valves;
-    public Model.NextTetrominoGenerator nextTetrominoGenerator;
+    private Model.NextTetrominoGenerator nextTetrominoGenerator;
     private MainGameView mainGameView;
     private GridView gameGrid;
 
@@ -28,6 +27,7 @@ public class Controller {
     public boolean tetrominoDead = false;
     public boolean stopPoll = false;
     ValveResponse response;
+    private static Timer timer;
 
 
     /**
@@ -40,13 +40,17 @@ public class Controller {
         this.view = view;
         this.model = model;
         nextTetrominoGenerator = model.new NextTetrominoGenerator();
-        nextBlockView = view.getMainGameView().getNextBlock();
 
         valves = new Valve[]{new DoNewGameValve(), new DoHardDropValve(), new DoSoftDropValve(), new DoLeftValve(),
-                new DoRightValve(), new DoRotateValve()};
+                new DoRightValve(), new DoRotateValve(), new DoQuitValve()};
         mainGameView = view.getMainGameView();
         gameGrid = mainGameView.getGameGrid();
 
+    }
+
+    public Timer getTimer()
+    {
+        return timer;
     }
 
     /**
@@ -58,11 +62,43 @@ public class Controller {
         if(!translateTetromino(4, 0, true))
         {
             System.out.println("Game Over");
-            Tetris.timer.cancel();
-
+            timer.cancel();
+            gameOverCleanUp();
             return;
         }
         paintTetromino(true);
+    }
+
+    public void gameOverCleanUp()
+    {
+        System.out.println("Game Over");
+        setCurrentTetromino(null);
+        view.getMainGameView().addNewGameView();
+    }
+
+    public void clearGrid()
+    {
+        for(int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                gameGrid.getSquares()[i][j].changeOccupied(false, null);
+            }
+        }
+    }
+
+    public void newGame()
+    {
+        if(timer != null)
+        {
+            timer.cancel();
+        }
+        clearGrid();
+        roundsPassed = 0;
+        view.getMainGameView().removeNewGameView();
+        timer = new Timer();
+        timer.schedule(new Tetris.DropTimer(),1500, 1000);
+        newRound();
     }
 
     /**
@@ -92,6 +128,10 @@ public class Controller {
 
     public void doRotate()
     {
+        if(currentTetromino == null)
+        {
+            return;
+        }
         if (currentTetromino.getColor() != Color.YELLOW)
         {
             int[] rotateResults;
@@ -255,6 +295,10 @@ public class Controller {
      */
     public boolean translateTetromino(int addX, int addY, boolean falling)
     {
+        if(currentTetromino == null)
+        {
+            return false;
+        }
         if(checkBound(addX, addY, falling))
         {
             paintTetromino(false);
@@ -303,8 +347,7 @@ public class Controller {
             {
                 return ValveResponse.MISS;
             }
-            roundsPassed = 0;
-            newRound();
+            newGame();
             return ValveResponse.EXECUTED;
         }
 
@@ -425,11 +468,30 @@ public class Controller {
         }
     }
 
+    private class DoQuitValve implements Valve
+    {
+        /**
+         * Execute the message of shift Left using valve
+         * @param message  the message
+         * @return ValveResponse  the valve response
+         */
+        @Override
+        public ValveResponse execute(Message message)
+        {
+            if (message.getClass() != Message.QuitMessage.class)
+            {
+                return ValveResponse.MISS;
+            }
+            timer.cancel();
+            gameOverCleanUp();
+            return ValveResponse.EXECUTED;
+        }
+    }
+
     /**
      * The mainLoop that calls the valve responses
-     * @throws Exception
      */
-    public void mainLoop() throws Exception
+    public void mainLoop()
     {
         response = ValveResponse.EXECUTED;
         Message message = null;

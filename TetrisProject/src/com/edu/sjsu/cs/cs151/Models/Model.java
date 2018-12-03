@@ -223,7 +223,7 @@ public class Model
 						new Coordinate(2, 0), new Coordinate(3, 0), Color.cyan);
 			} else if (letter.equals("j")) {
 				return new Tetromino(new Coordinate(0, 0), new Coordinate(1, 0),
-						new Coordinate(1, 1), new Coordinate(2, 1), Color.blue);
+						new Coordinate(1, 1), new Coordinate(1, 2), Color.blue);
 			} else if (letter.equals("l")) {
 				return new Tetromino(new Coordinate(0, 1), new Coordinate(1, 1),
 						new Coordinate(2, 1), new Coordinate(2, 0), Color.orange);
