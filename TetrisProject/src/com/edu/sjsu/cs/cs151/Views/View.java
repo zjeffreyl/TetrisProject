@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
  */
 public class View {
 
-    MainGameView mainGameView;
+    private MainGameView mainGameView;
 
     /**
      * View constructor initializes game view and adds a key listener to the frame

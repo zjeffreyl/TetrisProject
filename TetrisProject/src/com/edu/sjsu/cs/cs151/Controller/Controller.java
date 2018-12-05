@@ -69,6 +69,9 @@ public class Controller {
         paintTetromino(true);
     }
 
+    /**
+     * Removes the current tetromino to stop control and adds new game view
+     */
     public void gameOverCleanUp()
     {
         System.out.println("Game Over");
@@ -76,6 +79,9 @@ public class Controller {
         view.getMainGameView().addNewGameView();
     }
 
+    /**
+     * Clears the grid
+     */
     public void clearGrid()
     {
         for(int i = 0; i < 20; i++)
@@ -87,6 +93,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Start a new game
+     */
     public void newGame()
     {
         if(timer != null)

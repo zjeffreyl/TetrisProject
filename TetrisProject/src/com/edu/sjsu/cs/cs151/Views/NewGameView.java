@@ -18,7 +18,7 @@ public class NewGameView extends JPanel {
         JLabel instructions = new JLabel();
         instructions.setAlignmentY(CENTER_ALIGNMENT);
         instructions.setAlignmentX(CENTER_ALIGNMENT);
-        instructions.setText("<html><center><br><br><br>Controls: <br>Left/Right: Translate<br>Up: Rotate<br>Down: Soft Drop<br>Space: Fast Drop<br>Q: Quit<html>");
+        instructions.setText("<html><center><br><br><br>Controls: <br>Left/Right: Translate<br>Up: Rotate<br>Down: Soft Drop<br>Space: Fast Drop<br><html>");
         instructions.setFont(new Font("Arial", Font.BOLD, 15));
         add(text);
         add(instructions);
