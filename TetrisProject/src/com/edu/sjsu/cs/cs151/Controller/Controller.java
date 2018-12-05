@@ -1,12 +1,12 @@
 package com.edu.sjsu.cs.cs151.Controller;
 
-import com.edu.sjsu.cs.cs151.Views.Message;
 import com.edu.sjsu.cs.cs151.Models.Model;
 import com.edu.sjsu.cs.cs151.Tetris;
 import com.edu.sjsu.cs.cs151.Valve.Valve;
 import com.edu.sjsu.cs.cs151.Valve.ValveResponse;
 import com.edu.sjsu.cs.cs151.Views.GridView;
 import com.edu.sjsu.cs.cs151.Views.MainGameView;
+import com.edu.sjsu.cs.cs151.Views.Message;
 import com.edu.sjsu.cs.cs151.Views.View;
 
 import java.awt.*;
@@ -26,6 +26,7 @@ public class Controller {
     public boolean needToStartNewRound = false;
     public boolean tetrominoDead = false;
     public boolean stopPoll = false;
+    public boolean freeze = false;
     ValveResponse response;
     private static Timer timer;
 
@@ -164,7 +165,7 @@ public class Controller {
                 }
             }
 
-            if (!collision)
+            if (!collision && !freeze)
             {
                 currentTetromino.rotate();
                 paintTetromino(true);
@@ -196,6 +197,7 @@ public class Controller {
                 {
                     //We will need to stop any further controls until next second
                     stopPoll = true;
+                    freeze = true;
                     //End the reference to this tetromino
                     tetrominoDead = true;
                     //start polling again
@@ -308,7 +310,7 @@ public class Controller {
         {
             return false;
         }
-        if(checkBound(addX, addY, falling))
+        if(checkBound(addX, addY, falling) && !freeze)
         {
             paintTetromino(false);
             currentTetromino.moveTetromino(addX, addY);
@@ -332,6 +334,7 @@ public class Controller {
      */
     public synchronized void newRound()
     {
+        freeze = false;
         roundsPassed++;
         clearRow();
         spawnTetromino();
