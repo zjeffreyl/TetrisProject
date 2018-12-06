@@ -56,7 +56,7 @@ public class View {
 
         /**
          * Checks when user releases key, therefore only checks for single press and not hold of key
-         * @param e
+         * @param e  key event
          */
         @Override
         public void keyReleased(KeyEvent e) {

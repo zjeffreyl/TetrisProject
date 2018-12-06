@@ -27,7 +27,7 @@ public class GridSquare extends JComponent {
 
     /**
      * Get the row
-     * @return row
+     * @return row the row
      */
     public int getRow()
     {
@@ -36,7 +36,7 @@ public class GridSquare extends JComponent {
 
     /**
      * Get the column
-     * @return col
+     * @return col the col
      */
     public int getCol()
     {

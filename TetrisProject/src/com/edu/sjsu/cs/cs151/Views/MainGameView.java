@@ -20,7 +20,7 @@ public class MainGameView extends JFrame {
 
     /**
      * Constructs the main game view
-     * @param dimension
+     * @param dimension dimension of view
      */
     public MainGameView(int dimension)
     {
@@ -88,7 +88,7 @@ public class MainGameView extends JFrame {
 
     /**
      * Get the game grid
-     * @return gameGrid
+     * @return gameGrid  the game grid
      */
     public GridView getGameGrid() {
         return gameGrid;
@@ -96,7 +96,7 @@ public class MainGameView extends JFrame {
 
     /**
      * Get the next block
-     * @return nextBlock
+     * @return nextBlock  the next block
      */
     public HoldBlockView getNextBlock()
     {
@@ -111,10 +111,14 @@ public class MainGameView extends JFrame {
         repaint();
     }
 
+    /**
+     * Create a new game view
+     */
     public void addNewGameView()
     {
         panel = new NewGameView();
         panel.setSize(NEW_GAME_VIEW_DIMENSION,NEW_GAME_VIEW_DIMENSION);
+        panel.setPreferredSize(new Dimension(NEW_GAME_VIEW_DIMENSION,NEW_GAME_VIEW_DIMENSION));
         panel.setLocation(125, 125);
         getLayeredPane().add(panel, JLayeredPane.DEFAULT_LAYER);
         add(panel);

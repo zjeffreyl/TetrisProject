@@ -1,5 +1,8 @@
 package com.edu.sjsu.cs.cs151;
 
+/**
+ * @author Jeffrey Zhang, Zach Tom, Connie Huynh
+ */
 
 import com.edu.sjsu.cs.cs151.Controller.Controller;
 import com.edu.sjsu.cs.cs151.Models.Model;

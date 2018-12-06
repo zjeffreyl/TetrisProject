@@ -49,7 +49,7 @@ public class GridView extends JPanel
 
     /**
      * Change the rows to unoccupied (makes it empty)
-     * @param row
+     * @param row  the row
      */
     public void setRowUnoccupied(int row)
     {
@@ -71,7 +71,7 @@ public class GridView extends JPanel
 
     /**
      * Get the squares in the grid
-     * @return squares
+     * @return squares the squares
      */
     public GridSquare[][] getSquares()
     {
