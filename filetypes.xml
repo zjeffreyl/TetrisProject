@@ -2,6 +2,7 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="FWJS" type="ANTLR v4 grammar file" />
+      <mapping pattern="myFile" type="PLAIN_TEXT" />
       <mapping pattern="listData" type="PLAIN_TEXT" />
       <mapping pattern="staff" type="PLAIN_TEXT" />
       <mapping ext="dat" type="PLAIN_TEXT" />
