@@ -62,7 +62,7 @@ public class Controller {
         setCurrentTetromino(nextTetrominoGenerator.generateRandom());
         if(!translateTetromino(4, 0, true))
         {
-            System.out.println("Game Over");
+            System.out.println("Overflow");
             timer.cancel();
             gameOverCleanUp();
             return;

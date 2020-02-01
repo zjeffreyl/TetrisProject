@@ -37,7 +37,6 @@ public class Tetris
                 game.newRound();
             }
             else{
-                System.out.println("Translating");
                 game.translateTetromino(0, 1, true);
             }
         }
