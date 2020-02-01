@@ -1,6 +1,6 @@
 # Tetris
 
-This is an implementation of Tetris using Java and Java Swing framework for t he GUI.
+This is an implementation of Tetris using Java and Java Swing framework for the GUI.
 
 ## Installation
 
